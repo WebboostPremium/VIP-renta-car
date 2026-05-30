@@ -1,0 +1,2755 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>VIP Car — Renta de Vehículos</title>
+<meta name="description" content="VIP Renta A Car — Renta de vehículos rápida, segura y confiable. Entrega a domicilio, seguro incluido."/>
+<link rel="icon" type="image/png" href="" id="favicon"/>
+
+<!-- ═══════════════════════════════════════════
+     CONFIGURACIÓN DEL NEGOCIO — businessConfighttps://res.cloudinary.com/dxmtd2mga/image/upload/v1779484004/marcas_y_lgos_exzu4r.png
+     Modifica este bloque para personalizar el sitio
+════════════════════════════════════════════════ -->
+<script>
+const BIZ = {
+  name:          "",
+  slogan:        "VIP Renta A Car",
+  tagline:       "First Class",
+  shortDesc:     "Empresa comprometida con brindar servicio de renta de vehículos confiable, accesible y de alta calidad.",
+  location:      "Tu Ciudad",
+  country:       "Tu País",
+  phone:         "AQUÍ TU TELÉFONO",
+  whatsapp:      "00000000000",        // Sin + ni espacios. Ej: 50377443687
+  email:         "contacto@tunegocio.com",
+  instagram:     "@tunegocio",
+  instagramUrl:  "https://www.instagram.com/tunegocio",
+  facebook:      "Tu Negocio",
+  facebookUrl:   "https://www.facebook.com/tunegocio",
+  mapsUrl:       "https://maps.google.com",
+  logoUrl:       "https://res.cloudinary.com/dxmtd2mga/image/upload/q_auto/f_auto/v1780064473/198f830b-087d-49df-8beb-8d46b610f51d_w5yfeq.jpg",
+  year:          new Date().getFullYear(),
+  // Cloudinary — para subir imágenes desde el panel admin
+  cloudName:     "TU_CLOUD_NAME",
+  uploadPreset:  "TU_UPLOAD_PRESET",
+};
+</script>
+
+<!-- Fuentes premium -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
+
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- Lenis smooth scroll -->
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN TOKENS — VALDEZ GOLD / WHITE
+═══════════════════════════════════════════════ */
+:root{
+  --bg:       #ffffff;
+  --bg2:      #f9f8f5;
+  --bg3:      #f2ede4;
+  --surface:  rgba(0,0,0,.04);
+  --surface2: rgba(0,0,0,.065);
+  --border:   rgba(0,0,0,.08);
+  --border2:  rgba(0,0,0,.13);
+
+  --text:     #1a1614;
+  --text2:    rgba(26,22,20,.6);
+  --text3:    rgba(26,22,20,.38);
+
+  --red:      #C9A227;
+  --red2:     #DEB23E;
+  --red-glow: rgba(201,162,39,.28);
+  --green:    #00c26b;
+  --green-glow:rgba(0,194,107,.22);
+  --yellow:   #C9A227;
+
+  --gold:     #C9A227;
+  --gold2:    #DEB23E;
+  --gold-dark:#9e7e1a;
+
+  --dark-bg:  #1a1614;
+  --dark-bg2: #231e1b;
+
+  --grad-brand: linear-gradient(135deg,#C9A227,#DEB23E);
+  --grad-dark:  linear-gradient(135deg,#1a1614,#2d2820);
+
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 28px;
+  --r-2xl:40px;
+
+  --font-display:'Poppins',sans-serif;
+  --font-body:'Poppins',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:auto}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+a{text-decoration:none;color:inherit}
+button{font-family:var(--font-body);cursor:pointer;border:none}
+img{display:block;max-width:100%}
+
+/* ═══════════════════════════════════════════════
+   UTILITIES
+═══════════════════════════════════════════════ */
+.grad-text{
+  background:var(--grad-brand);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.gold-text{color:var(--gold)}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);padding:5px 13px;border-radius:999px;
+  background:rgba(201,162,39,.1);border:1px solid rgba(201,162,39,.3);
+}
+.eyebrow::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 8px var(--gold);
+  animation:blink 1.8s ease-in-out infinite;
+}
+.container{max-width:1160px;margin:0 auto;padding:0 24px}
+
+/* Light card */
+.glass{
+  background:#fff;
+  border:1px solid var(--border);border-radius:var(--r-lg);
+  box-shadow:0 4px 24px rgba(0,0,0,.07),inset 0 1px 0 rgba(255,255,255,.9);
+  transition:border-color .3s,box-shadow .3s,transform .35s cubic-bezier(.4,0,.2,1);
+}
+.glass:hover{
+  border-color:rgba(201,162,39,.45);
+  box-shadow:0 12px 48px rgba(0,0,0,.1),0 0 0 1px rgba(201,162,39,.15),inset 0 1px 0 #fff;
+  transform:translateY(-4px);
+}
+
+/* Buttons */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 28px;border-radius:999px;
+  background:var(--grad-brand);color:#fff;
+  font-size:14px;font-weight:700;letter-spacing:.03em;
+  position:relative;overflow:hidden;
+  transition:transform .22s,box-shadow .22s;
+  box-shadow:0 4px 20px var(--red-glow);
+}
+.btn-primary::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.15);opacity:0;transition:opacity .22s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 32px var(--red-glow)}
+.btn-primary:hover::before{opacity:1}
+.btn-primary:active{transform:translateY(0)}
+
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 24px;border-radius:999px;
+  background:transparent;border:1.5px solid rgba(201,162,39,.45);
+  color:var(--text);font-size:14px;font-weight:600;
+  transition:border-color .22s,background .22s,transform .2s;
+}
+.btn-ghost:hover{border-color:var(--gold);background:rgba(201,162,39,.07);transform:translateY(-1px)}
+
+.btn-green{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:12px 24px;border-radius:999px;
+  background:rgba(0,194,107,.1);border:1px solid rgba(0,194,107,.28);
+  color:var(--green);font-size:14px;font-weight:700;
+  transition:all .22s;
+}
+.btn-green:hover{background:rgba(0,194,107,.2);border-color:var(--green);transform:translateY(-1px);box-shadow:0 6px 22px var(--green-glow)}
+
+.btn-sm{padding:9px 18px;font-size:12px}
+
+/* ═══════════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════════ */
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes gradMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,162,39,.3)}50%{box-shadow:0 0 0 10px rgba(201,162,39,0)}}
+@keyframes borderGlow{0%,100%{border-color:rgba(201,162,39,.2)}50%{border-color:rgba(201,162,39,.5)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes ringPulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.7);opacity:0}}
+
+/* ═══════════════════════════════════════════════
+   TOPBAR MARQUEE
+═══════════════════════════════════════════════ */
+.topbar{
+  background:linear-gradient(90deg,#9e7e1a,#C9A227,#DEB23E,#C9A227,#9e7e1a);
+  background-size:400% 100%;animation:gradMove 10s ease infinite;
+  padding:.45rem 0;overflow:hidden;white-space:nowrap;
+}
+.topbar-inner{
+  display:inline-block;
+  animation:marquee 36s linear infinite;
+  font-size:.68rem;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.92);
+}
+.topbar-inner span{margin:0 24px;opacity:.6}
+
+/* ═══════════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════════ */
+#navbar{
+  position:sticky;top:0;z-index:500;
+  background:#ffffff;
+  border-bottom:1px solid rgba(201,162,39,.12);
+  box-shadow:0 2px 20px rgba(0,0,0,.06);
+  transition:background .4s,border-color .4s,box-shadow .4s;
+}
+#navbar.scrolled{
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(28px) saturate(160%);
+  -webkit-backdrop-filter:blur(28px) saturate(160%);
+  border-bottom-color:rgba(201,162,39,.2);
+  box-shadow:0 4px 32px rgba(0,0,0,.1);
+}
+.nav-inner{
+  max-width:1160px;margin:0 auto;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;height:68px;
+}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo-icon{
+  width:40px;height:40px;border-radius:12px;overflow:hidden;flex-shrink:0;
+  box-shadow:0 4px 18px var(--red-glow);animation:float 4s ease-in-out infinite;
+  border:1px solid rgba(201,162,39,.4);
+}
+.logo-icon img{width:100%;height:100%;object-fit:cover}
+.logo-text{font-family:var(--font-display);font-weight:800;font-size:.95rem;letter-spacing:-.02em;color:var(--text)}
+.logo-sub{font-size:.55rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.18em;margin-top:1px}
+
+.nav-links{display:none;align-items:center;gap:28px;list-style:none}
+@media(min-width:768px){.nav-links{display:flex}}
+.nav-link{
+  font-size:.82rem;font-weight:600;color:var(--text2);
+  transition:color .2s;position:relative;padding:.3rem 0;
+}
+.nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:var(--grad-brand);border-radius:2px;transition:width .3s}
+.nav-link:hover{color:var(--text)}.nav-link:hover::after{width:100%}
+
+.nav-actions{display:flex;align-items:center;gap:8px}
+.nav-wa{
+  display:none;align-items:center;gap:6px;
+  padding:.42rem 1rem;border-radius:999px;
+  background:rgba(0,194,107,.08);border:1px solid rgba(0,194,107,.22);
+  color:var(--green);font-size:.76rem;font-weight:800;
+  transition:all .22s;
+}
+.nav-wa:hover{background:rgba(0,194,107,.16);border-color:var(--green);transform:translateY(-1px)}
+@media(min-width:640px){.nav-wa{display:flex}}
+
+.nav-cta{
+  display:none;align-items:center;gap:6px;
+  padding:.5rem 1.25rem;border-radius:999px;
+  background:var(--grad-brand);color:#fff;
+  font-size:.8rem;font-weight:700;
+  box-shadow:0 4px 16px var(--red-glow);
+  transition:all .22s;font-family:var(--font-body);
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px var(--red-glow)}
+@media(min-width:900px){.nav-cta{display:flex}}
+
+.nav-admin-btn{
+  display:none;align-items:center;gap:6px;
+  padding:.42rem 1rem;border-radius:999px;
+  background:rgba(201,162,39,.08);border:1px solid rgba(201,162,39,.22);
+  color:var(--gold);font-size:.76rem;font-weight:800;
+  transition:all .22s;font-family:var(--font-body);
+}
+.nav-admin-btn:hover{background:rgba(201,162,39,.18);border-color:var(--gold)}
+@media(min-width:640px){.nav-admin-btn{display:flex}}
+
+.hamburger{
+  padding:.45rem;border-radius:10px;
+  background:var(--surface);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .22s;
+}
+.hamburger:hover{border-color:rgba(201,162,39,.4);background:rgba(201,162,39,.06)}
+.hamburger svg{width:20px;height:20px;stroke:var(--text2);transition:stroke .22s}
+.hamburger:hover svg{stroke:var(--gold)}
+
+/* ═══════════════════════════════════════════════
+   MOBILE NAV
+═══════════════════════════════════════════════ */
+#menu-backdrop{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.5);
+  z-index:690;
+  backdrop-filter:blur(8px);
+}
+#menu-backdrop.show{display:block;animation:fadeIn .2s ease}
+#mobile-nav{
+  position:fixed;top:0;right:-100%;bottom:0;
+  width:min(300px,85vw);
+  background:rgba(255,255,255,.98);
+  backdrop-filter:blur(24px);
+  z-index:700;
+  overflow-y:auto;
+  transition:right .32s cubic-bezier(.4,0,.2,1);
+  border-left:1px solid rgba(201,162,39,.15);
+  padding-bottom:env(safe-area-inset-bottom,24px);
+}
+#mobile-nav.open{right:0}
+.mn-header{
+  padding:1.5rem 1.25rem 2rem;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(201,162,39,.08),transparent);
+  border-bottom:1px solid rgba(201,162,39,.12);
+}
+.mn-header::before{content:'';position:absolute;top:-50px;right:-50px;width:140px;height:140px;background:radial-gradient(circle,rgba(201,162,39,.12),transparent 70%);border-radius:50%;pointer-events:none}
+.mnav-link{
+  display:flex;align-items:center;gap:.875rem;padding:.8rem 1.1rem;
+  color:var(--text2);font-weight:600;font-size:.88rem;
+  border-radius:12px;transition:all .18s;
+  margin:.08rem .5rem;background:transparent;border:none;cursor:pointer;
+  width:calc(100% - 1rem);text-align:left;font-family:var(--font-body);
+}
+.mnav-link:hover{background:rgba(201,162,39,.07);color:var(--text)}
+.mnav-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:rgba(201,162,39,.07);border:1px solid rgba(201,162,39,.18);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .18s;
+}
+.mnav-link:hover .mnav-icon{background:rgba(201,162,39,.15);border-color:var(--gold)}
+.mn-sep{height:1px;background:rgba(0,0,0,.07);margin:.5rem 1rem}
+.mn-label{font-size:.6rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.18em;padding:.5rem 1.25rem .3rem}
+
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+#hero{
+  position:relative;min-height:100svh;
+  display:flex;align-items:center;overflow:hidden;
+  background:var(--bg);
+}
+#hero-canvas{position:absolute;inset:0;z-index:0;opacity:.18}
+.hero-bg-img{
+  position:absolute;inset:0;z-index:1;
+  background:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1400&auto=format&fit=crop') center/cover no-repeat;
+  opacity:.22;
+}
+.hero-overlay{
+  position:absolute;inset:0;z-index:2;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,.1) 40%,rgba(255,255,255,.4) 100%),
+    linear-gradient(90deg,rgba(255,255,255,.7) 0%,rgba(255,255,255,.2) 60%,transparent 100%);
+}
+.hero-grid{
+  position:absolute;inset:0;z-index:2;
+  background-image:
+    linear-gradient(rgba(201,162,39,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,162,39,.06) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black,transparent);
+}
+.hero-inner{
+  position:relative;z-index:3;
+  width:100%;max-width:1160px;margin:0 auto;
+  padding:6rem 24px 5rem;
+  display:grid;grid-template-columns:1fr;gap:3rem;
+}
+@media(min-width:900px){.hero-inner{grid-template-columns:1fr 1fr;align-items:center;padding:8rem 24px 7rem}}
+.hero-content{will-change:transform}
+.hero-badge{margin-bottom:1.5rem}
+.hero-title{
+  font-family:var(--font-display);
+  font-size:clamp(2.6rem,7vw,5.2rem);
+  font-weight:800;line-height:1.02;
+  letter-spacing:-.04em;color:var(--text);
+  margin-bottom:.9rem;
+}
+.hero-line{display:block;overflow:hidden}
+.hero-line-inner{display:block}
+.hero-sub{
+  font-size:1.05rem;line-height:1.72;
+  color:var(--text2);max-width:460px;
+  margin-bottom:2.25rem;
+}
+.hero-sub strong{color:var(--text);font-weight:600}
+.hero-cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:2.5rem}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap}
+.h-stat-num{
+  font-family:var(--font-display);
+  font-size:1.75rem;font-weight:800;line-height:1;
+  color:var(--gold);
+}
+.h-stat-lbl{font-size:.62rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.14em;margin-top:3px}
+.stat-div{width:1px;background:var(--border);align-self:stretch}
+
+/* Hero visual card */
+.hero-visual{display:none;position:relative}
+@media(min-width:900px){.hero-visual{display:block}}
+.hero-car-card{
+  background:#fff;
+  border:1px solid rgba(201,162,39,.2);border-radius:var(--r-xl);
+  padding:1.75rem;position:relative;overflow:hidden;
+  animation:borderGlow 4s ease-in-out infinite;
+  box-shadow:0 20px 60px rgba(0,0,0,.1);
+}
+.hero-car-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(201,162,39,.05),transparent);
+  pointer-events:none;border-radius:var(--r-xl);
+}
+.hero-car-img-wrap{border-radius:var(--r-md);overflow:hidden;margin-bottom:1.25rem;height:200px}
+.hero-car-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.hero-car-card:hover .hero-car-img-wrap img{transform:scale(1.05)}
+.hero-price-badge{
+  position:absolute;top:1.25rem;right:1.25rem;z-index:2;
+  background:var(--grad-brand);color:#fff;
+  padding:.7rem 1rem;border-radius:14px;
+  box-shadow:0 8px 24px var(--red-glow);
+  animation:float 3s ease-in-out infinite;
+}
+.hpb-price{font-family:var(--font-display);font-size:1.35rem;font-weight:800;line-height:1}
+.hpb-lbl{font-size:.58rem;font-weight:700;opacity:.8;text-transform:uppercase;letter-spacing:.1em}
+.hero-car-badges{display:flex;gap:.5rem;margin-bottom:.875rem}
+.hcb{padding:.28rem .72rem;border-radius:999px;font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+.hcb-red{background:rgba(201,162,39,.12);color:var(--gold);border:1px solid rgba(201,162,39,.3)}
+.hcb-green{background:rgba(0,194,107,.1);color:var(--green);border:1px solid rgba(0,194,107,.25)}
+.hero-car-name{font-family:var(--font-display);font-size:1.15rem;font-weight:800;margin-bottom:.625rem;color:var(--text)}
+.hero-car-tags{display:flex;flex-wrap:wrap;gap:.75rem}
+.hero-car-tag{font-size:.7rem;color:var(--text3);font-weight:600;display:flex;align-items:center;gap:.3rem}
+
+/* Scroll hint */
+.scroll-hint{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  z-index:3;display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  animation:fadeIn 2s 1.8s ease both;opacity:0;
+}
+.scroll-wheel{width:22px;height:36px;border:2px solid rgba(201,162,39,.4);border-radius:11px;display:flex;justify-content:center;padding-top:5px}
+.scroll-dot{width:3px;height:8px;border-radius:2px;background:var(--gold);animation:float 1.5s ease-in-out infinite}
+.scroll-txt{font-size:.58rem;font-weight:700;color:var(--text3);letter-spacing:.14em;text-transform:uppercase}
+
+/* ═══════════════════════════════════════════════
+   SEARCH BAR SECTION
+═══════════════════════════════════════════════ */
+.search-bar-section{
+  background:#fff;
+  padding:0 24px;
+  position:relative;z-index:4;
+  margin-top:-2.5rem;
+}
+.search-bar-card{
+  max-width:1000px;margin:0 auto;
+  background:#fff;border-radius:var(--r-xl);
+  box-shadow:0 8px 48px rgba(0,0,0,.12);
+  border:1px solid rgba(201,162,39,.15);
+  padding:1.5rem 2rem;
+  display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-end;
+}
+.search-field{flex:1;min-width:160px}
+.search-label{display:block;font-size:.6rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.16em;margin-bottom:.4rem}
+.search-input{
+  width:100%;padding:.78rem 1rem;
+  background:var(--bg2);border:1.5px solid var(--border);
+  border-radius:var(--r-sm);color:var(--text);
+  font-family:var(--font-body);font-size:.875rem;font-weight:500;
+  outline:none;transition:all .22s;
+}
+.search-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.1)}
+.search-btn{
+  flex-shrink:0;
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.85rem 1.75rem;border-radius:var(--r-sm);
+  background:var(--grad-brand);color:#fff;
+  font-family:var(--font-body);font-size:.88rem;font-weight:700;
+  cursor:pointer;border:none;
+  box-shadow:0 4px 18px var(--red-glow);
+  transition:all .22s;white-space:nowrap;
+}
+.search-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--red-glow)}
+
+/* ═══════════════════════════════════════════════
+   MARQUEE BAR
+═══════════════════════════════════════════════ */
+.marquee-bar{
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:13px 0;overflow:hidden;background:rgba(201,162,39,.03);
+}
+.marquee-track{display:inline-flex;gap:40px;white-space:nowrap;animation:marquee 28s linear infinite}
+.marquee-item{font-size:.72rem;font-weight:700;color:var(--text3);letter-spacing:.06em;display:flex;align-items:center;gap:8px}
+.marquee-item::before{content:'✦';color:var(--gold);font-size:.55rem}
+
+/* ═══════════════════════════════════════════════
+   BENEFITS STRIP
+═══════════════════════════════════════════════ */
+.benefits{border-bottom:1px solid var(--border)}
+.benefits-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);max-width:1160px;margin:0 auto}
+@media(min-width:640px){.benefits-grid{grid-template-columns:repeat(4,1fr)}}
+.benefit-item{
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.625rem;padding:1.75rem 1rem;text-align:center;
+  position:relative;overflow:hidden;cursor:default;
+  transition:background .28s;
+}
+.benefit-item::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--grad-brand);border-radius:2px;transition:width .35s}
+.benefit-item:hover{background:rgba(201,162,39,.04)}
+.benefit-item:hover::after{width:80%}
+.benefit-icon-wrap{
+  width:52px;height:52px;border-radius:14px;
+  background:rgba(201,162,39,.08);border:1px solid rgba(201,162,39,.18);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .28s cubic-bezier(.4,0,.2,1);
+}
+.benefit-item:hover .benefit-icon-wrap{background:var(--gold);border-color:var(--gold);box-shadow:0 6px 20px var(--red-glow);transform:scale(1.08) rotate(-5deg)}
+.benefit-icon{width:22px;height:22px;color:var(--gold);transition:color .28s}
+.benefit-item:hover .benefit-icon{color:#fff}
+.benefit-label{font-size:.78rem;font-weight:700;color:var(--text2);line-height:1.4;transition:color .25s}
+.benefit-item:hover .benefit-label{color:var(--text)}
+
+/* ═══════════════════════════════════════════════
+   SECTION LAYOUT
+═══════════════════════════════════════════════ */
+.section{padding:5rem 24px;max-width:1160px;margin:0 auto}
+.section-full{padding:5rem 0}
+.section-hd{margin-bottom:2.5rem}
+.section-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.62rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);
+  margin-bottom:.75rem;
+}
+.section-tag::before{content:'';width:18px;height:2px;background:var(--grad-brand);border-radius:2px}
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(1.75rem,4vw,2.5rem);font-weight:800;
+  letter-spacing:-.04em;line-height:1.1;margin-bottom:.5rem;color:var(--text);
+}
+.section-divider{width:48px;height:3px;border-radius:2px;margin-top:.875rem;background:var(--grad-brand);box-shadow:0 0 12px var(--red-glow)}
+
+/* ═══════════════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════════════ */
+.about-wrap{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.about-wrap::before{content:'';position:absolute;top:-120px;right:-120px;width:400px;height:400px;background:radial-gradient(circle,rgba(201,162,39,.06),transparent 70%);border-radius:50%;pointer-events:none}
+.about-grid{display:grid;grid-template-columns:1fr;gap:3rem}
+@media(min-width:768px){.about-grid{grid-template-columns:1fr 1fr;align-items:start}}
+.about-desc{font-size:.95rem;color:var(--text2);line-height:1.8;margin-bottom:1.5rem}
+.about-mv{display:flex;flex-direction:column;gap:.875rem}
+.about-mv-item{
+  padding:1.125rem 1.25rem;border-radius:var(--r-md);
+  background:#fff;border:1px solid var(--border);
+  border-left:3px solid var(--gold);transition:all .28s;
+  box-shadow:0 2px 12px rgba(0,0,0,.05);
+}
+.about-mv-item:hover{background:#fff;border-color:rgba(201,162,39,.3);box-shadow:0 6px 24px rgba(201,162,39,.12)}
+.about-mv-title{font-size:.68rem;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.14em;margin-bottom:.35rem}
+.about-mv-text{font-size:.85rem;color:var(--text2);line-height:1.65}
+
+.services-list{display:flex;flex-direction:column;gap:.5rem}
+.service-item{
+  display:flex;align-items:center;gap:.875rem;
+  padding:.8rem 1rem;border-radius:var(--r-sm);
+  background:#fff;border:1px solid var(--border);
+  transition:all .25s;cursor:default;
+}
+.service-item:hover{border-color:rgba(201,162,39,.35);transform:translateX(5px);background:rgba(201,162,39,.03)}
+.service-dot{width:30px;height:30px;border-radius:9px;flex-shrink:0;background:rgba(201,162,39,.1);border:1px solid rgba(201,162,39,.2);display:flex;align-items:center;justify-content:center;transition:all .25s}
+.service-item:hover .service-dot{background:var(--gold);border-color:var(--gold);box-shadow:0 3px 12px var(--red-glow)}
+.service-icon{width:14px;height:14px;color:var(--gold);transition:color .25s;flex-shrink:0}
+.service-item:hover .service-icon{color:#fff}
+.service-text{font-size:.84rem;font-weight:600;color:var(--text2);transition:color .25s}
+.service-item:hover .service-text{color:var(--text)}
+
+/* ═══════════════════════════════════════════════
+   BRANDS SECTION
+═══════════════════════════════════════════════ */
+.brands-section{
+  padding:4rem 24px;background:var(--bg2);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.brands-inner{max-width:1160px;margin:0 auto}
+.brands-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-top:2rem;
+}
+@media(min-width:640px){.brands-grid{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:900px){.brands-grid{grid-template-columns:repeat(8,1fr)}}
+.brand-item{
+  background:#fff;border:1px solid var(--border);border-radius:var(--r-md);
+  padding:1.25rem 1rem;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.85rem;color:var(--text3);
+  transition:all .28s;cursor:default;letter-spacing:-.01em;
+}
+.brand-item:hover{border-color:rgba(201,162,39,.35);color:var(--text);box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-3px)}
+
+/* ═══════════════════════════════════════════════
+   TRUST SECTION
+═══════════════════════════════════════════════ */
+.trust-section{
+  padding:5rem 24px;background:#fff;
+}
+.trust-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:3rem;align-items:center}
+@media(min-width:768px){.trust-inner{grid-template-columns:1fr 1fr}}
+.trust-img-wrap{
+  border-radius:var(--r-xl);overflow:hidden;
+  height:420px;position:relative;
+  box-shadow:0 20px 60px rgba(0,0,0,.12);
+}
+.trust-img-wrap img{width:100%;height:100%;object-fit:cover}
+.trust-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,.4) 100%);
+}
+.trust-content{}
+.trust-points{display:flex;flex-direction:column;gap:1.25rem;margin-top:2rem}
+.trust-point{
+  display:flex;align-items:flex-start;gap:1rem;
+  padding:1.25rem;border-radius:var(--r-md);
+  background:var(--bg2);border:1px solid var(--border);
+  transition:all .28s;
+}
+.trust-point:hover{border-color:rgba(201,162,39,.3);box-shadow:0 4px 20px rgba(201,162,39,.1)}
+.trust-point-icon{
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;
+  background:rgba(201,162,39,.1);border:1px solid rgba(201,162,39,.22);
+  display:flex;align-items:center;justify-content:center;
+}
+.trust-point-icon svg{color:var(--gold)}
+.trust-point-title{font-weight:700;font-size:.92rem;color:var(--text);margin-bottom:.25rem}
+.trust-point-text{font-size:.82rem;color:var(--text2);line-height:1.6}
+
+/* ═══════════════════════════════════════════════
+   CTA DARK BANNER
+═══════════════════════════════════════════════ */
+.cta-banner{
+  background:var(--dark-bg);
+  padding:5rem 24px;position:relative;overflow:hidden;
+}
+.cta-banner::before{
+  content:'';position:absolute;top:-100px;left:-100px;width:400px;height:400px;
+  background:radial-gradient(circle,rgba(201,162,39,.12),transparent 70%);
+  border-radius:50%;pointer-events:none;
+}
+.cta-banner::after{
+  content:'';position:absolute;bottom:-80px;right:-80px;width:320px;height:320px;
+  background:radial-gradient(circle,rgba(201,162,39,.08),transparent 70%);
+  border-radius:50%;pointer-events:none;
+}
+.cta-banner-inner{max-width:800px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.cta-banner-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.62rem;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:1.5rem;
+}
+.cta-banner-eyebrow::before{content:'';display:inline-block;width:24px;height:2px;background:var(--grad-brand);border-radius:2px}
+.cta-banner-eyebrow::after{content:'';display:inline-block;width:24px;height:2px;background:var(--grad-brand);border-radius:2px}
+.cta-banner-title{
+  font-family:var(--font-display);
+  font-size:clamp(2rem,5vw,3.5rem);font-weight:800;
+  letter-spacing:-.04em;line-height:1.1;color:#fff;margin-bottom:1rem;
+}
+.cta-banner-sub{font-size:1rem;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:2.5rem;max-width:560px;margin-left:auto;margin-right:auto}
+.cta-banner-actions{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center}
+.cta-btn-gold{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:14px 32px;border-radius:999px;
+  background:var(--grad-brand);color:#fff;
+  font-size:.92rem;font-weight:700;font-family:var(--font-body);
+  box-shadow:0 6px 24px rgba(201,162,39,.4);
+  transition:all .22s;border:none;cursor:pointer;
+}
+.cta-btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(201,162,39,.5)}
+.cta-btn-outline-white{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:13px 32px;border-radius:999px;
+  background:transparent;color:rgba(255,255,255,.85);
+  border:1.5px solid rgba(255,255,255,.25);
+  font-size:.92rem;font-weight:600;font-family:var(--font-body);
+  transition:all .22s;cursor:pointer;
+}
+.cta-btn-outline-white:hover{border-color:rgba(255,255,255,.6);color:#fff;background:rgba(255,255,255,.06)}
+
+/* ═══════════════════════════════════════════════
+   FILTER TABS
+═══════════════════════════════════════════════ */
+.filter-wrap{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem}
+.ftab{
+  padding:.42rem 1.1rem;border-radius:999px;
+  font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  background:transparent;border:1.5px solid var(--border2);color:var(--text3);
+  cursor:pointer;transition:all .22s;font-family:var(--font-body);
+}
+.ftab:hover{border-color:rgba(201,162,39,.4);color:var(--gold)}
+.ftab.on{background:var(--grad-brand);color:#fff;border-color:transparent;box-shadow:0 4px 16px var(--red-glow)}
+
+/* ═══════════════════════════════════════════════
+   VEHICLE CARDS
+═══════════════════════════════════════════════ */
+.vehicle-list{display:flex;flex-direction:column;gap:1.25rem}
+@media(min-width:640px){.vehicle-list{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}}
+@media(min-width:1024px){.vehicle-list{grid-template-columns:repeat(3,1fr)}}
+
+.vc-card{
+  background:#fff;
+  border:1px solid var(--border);border-radius:var(--r-lg);
+  overflow:hidden;position:relative;
+  transition:all .35s cubic-bezier(.4,0,.2,1);
+  animation:scaleIn .5s ease both;
+  box-shadow:0 4px 20px rgba(0,0,0,.06);
+}
+.vc-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(201,162,39,.05),transparent);
+  opacity:0;transition:opacity .35s;pointer-events:none;z-index:0;
+  border-radius:var(--r-lg);
+}
+.vc-card:hover{
+  border-color:rgba(201,162,39,.45);
+  transform:translateY(-8px);
+  box-shadow:0 24px 60px rgba(0,0,0,.1),0 0 0 1px rgba(201,162,39,.15);
+}
+.vc-card:hover::before{opacity:1}
+.vc-img-wrap{position:relative;overflow:hidden;height:190px;background:var(--bg2)}
+.vc-car-img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.vc-card:hover .vc-car-img{transform:scale(1.07)}
+.vc-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.3) 0%,transparent 60%);opacity:0;transition:opacity .35s;pointer-events:none}
+.vc-card:hover .vc-img-overlay{opacity:1}
+.vc-badge-cat{
+  position:absolute;top:.875rem;left:.875rem;z-index:2;
+  background:var(--grad-brand);color:#fff;
+  font-size:.6rem;font-weight:900;padding:.22rem .65rem;border-radius:999px;
+  text-transform:uppercase;letter-spacing:.08em;box-shadow:0 3px 12px var(--red-glow);
+}
+.vc-avail-dot{
+  position:absolute;top:.875rem;right:.875rem;z-index:2;
+  display:flex;align-items:center;gap:.35rem;
+  background:rgba(255,255,255,.9);backdrop-filter:blur(10px);
+  border-radius:999px;padding:.24rem .65rem;font-size:.62rem;font-weight:800;color:var(--green);
+  border:1px solid rgba(0,194,107,.25);
+}
+.vc-avail-dot::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 7px var(--green);animation:blink 1.8s ease-in-out infinite}
+.slide-btn{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  background:rgba(255,255,255,.9);backdrop-filter:blur(6px);
+  color:var(--text);border:1px solid rgba(0,0,0,.1);
+  width:28px;height:28px;border-radius:50%;cursor:pointer;
+  font-size:13px;display:flex;align-items:center;justify-content:center;
+  transition:all .22s;box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+.slide-btn:hover{background:var(--gold);border-color:var(--gold);color:#fff;transform:translateY(-50%) scale(1.1)}
+.slide-btn-prev{left:.75rem}.slide-btn-next{right:.75rem}
+
+.vc-body{padding:1.125rem;position:relative;z-index:1}
+.vc-name{font-family:var(--font-display);font-size:.98rem;font-weight:800;line-height:1.2;margin-bottom:.25rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)}
+.vc-desc{font-size:.73rem;color:var(--text3);margin-bottom:.75rem;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vc-tags{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;margin-bottom:.875rem}
+.vc-tag{
+  display:flex;align-items:center;gap:.28rem;
+  font-size:.68rem;color:var(--text3);font-weight:600;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:7px;padding:.2rem .5rem;
+}
+.vc-tag svg{width:10px;height:10px;color:var(--gold);flex-shrink:0}
+.vc-footer{
+  display:flex;align-items:center;justify-content:space-between;gap:.5rem;
+  border-top:1px solid var(--border);padding-top:.875rem;
+}
+.vc-price{font-family:var(--font-display);font-size:1.2rem;font-weight:800;line-height:1;color:var(--gold)}
+.vc-price-day{font-size:.64rem;font-weight:600;color:var(--text3)}
+.vc-reserve-btn{
+  flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;gap:.35rem;
+  background:var(--grad-brand);color:#fff;
+  padding:.5rem .95rem;border-radius:10px;
+  font-size:.72rem;font-weight:900;border:none;cursor:pointer;
+  transition:all .22s;font-family:var(--font-body);letter-spacing:.04em;
+  white-space:nowrap;position:relative;overflow:hidden;
+  box-shadow:0 3px 12px rgba(201,162,39,.3);
+}
+.vc-reserve-btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .22s}
+.vc-reserve-btn:hover{transform:scale(1.07) translateY(-1px);box-shadow:0 7px 22px var(--red-glow)}
+.vc-reserve-btn:hover::before{background:rgba(255,255,255,.12)}
+.vc-no-vehicles{grid-column:1/-1;text-align:center;padding:5rem 1rem;color:var(--text3)}
+
+/* ═══════════════════════════════════════════════
+   BOOKING WIDGET
+═══════════════════════════════════════════════ */
+.booking-wrap{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.booking-wrap::before{content:'';position:absolute;top:-100px;left:-100px;width:350px;height:350px;background:radial-gradient(circle,rgba(201,162,39,.06),transparent 70%);border-radius:50%;pointer-events:none}
+.widget-wrap{
+  background:#fff;
+  border:1px solid var(--border);border-radius:var(--r-xl);
+  overflow:hidden;
+  box-shadow:0 16px 64px rgba(0,0,0,.08);
+}
+.widget-head{
+  background:linear-gradient(135deg,var(--gold) 0%,var(--gold-dark) 100%);
+  padding:1.5rem 1.75rem;position:relative;overflow:hidden;
+}
+.widget-head::before{content:'';position:absolute;top:-60px;right:-60px;width:160px;height:160px;background:radial-gradient(circle,rgba(255,255,255,.15),transparent 70%);border-radius:50%;pointer-events:none}
+.widget-head-title{color:#fff;font-family:var(--font-display);font-weight:800;font-size:1.15rem;position:relative;z-index:1}
+.widget-head-sub{color:rgba(255,255,255,.7);font-size:.73rem;margin-top:.3rem;position:relative;z-index:1}
+.widget-body{padding:1.75rem;display:flex;flex-direction:column;gap:1rem}
+
+.wlabel{display:block;font-size:.6rem;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.16em;margin-bottom:.4rem}
+.wfield{
+  width:100%;padding:.78rem 1rem;
+  background:var(--bg2);border:1.5px solid var(--border);
+  border-radius:var(--r-sm);color:var(--text);
+  font-family:var(--font-body);font-size:.875rem;font-weight:500;
+  outline:none;transition:all .24s;min-height:48px;-webkit-appearance:none;
+}
+.wfield:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.1);background:#fff}
+.wfield.err{border-color:#e53e3e;background:rgba(229,62,62,.04)}
+.wfield option{background:#fff}
+.ferr{color:#e53e3e;font-size:.68rem;margin-top:.22rem;display:none;animation:slideDown .22s ease;font-weight:600}
+
+.wsummary{
+  display:none;
+  background:rgba(201,162,39,.05);
+  border:1px solid rgba(201,162,39,.18);border-radius:var(--r-sm);padding:.875rem 1rem;
+}
+.reserve-submit-btn{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:.6rem;
+  background:var(--grad-brand);color:#fff;border:none;
+  padding:1rem;border-radius:var(--r-md);
+  font-family:var(--font-body);font-size:.92rem;font-weight:900;cursor:pointer;
+  transition:all .25s cubic-bezier(.4,0,.2,1);letter-spacing:.04em;
+  box-shadow:0 8px 28px var(--red-glow);position:relative;overflow:hidden;
+}
+.reserve-submit-btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .22s;pointer-events:none}
+.reserve-submit-btn:hover{transform:translateY(-2px);box-shadow:0 14px 40px var(--red-glow)}
+.reserve-submit-btn:hover::before{background:rgba(255,255,255,.1)}
+
+/* ═══════════════════════════════════════════════
+   RATES TABLE
+═══════════════════════════════════════════════ */
+.rates-wrap{
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r-lg);overflow:hidden;
+  box-shadow:0 4px 24px rgba(0,0,0,.07);
+}
+.rates-wrap table{width:100%;border-collapse:collapse;min-width:480px}
+.rates-wrap thead th{
+  background:linear-gradient(90deg,var(--gold),var(--gold-dark));
+  color:#fff;text-align:left;padding:1rem 1.125rem;
+  font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap;
+  font-family:var(--font-display);
+}
+.rates-wrap thead th:not(:first-child){text-align:center}
+.rates-wrap tbody tr{border-bottom:1px solid var(--border);transition:background .15s}
+.rates-wrap tbody tr:last-child{border-bottom:none}
+.rates-wrap tbody tr:hover{background:rgba(201,162,39,.04)}
+.rates-wrap td{padding:1rem 1.125rem;font-size:.85rem;color:var(--text2)}
+.rates-wrap td:first-child{font-weight:800;color:var(--text)}
+.rates-wrap td:not(:first-child){text-align:center}
+.rates-price{color:var(--gold);font-weight:900;font-size:.92rem}
+
+/* ═══════════════════════════════════════════════
+   CONTACT CARDS
+═══════════════════════════════════════════════ */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1.25rem}
+.contact-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:1.75rem 1.25rem;text-align:center;
+  transition:all .35s cubic-bezier(.4,0,.2,1);
+  position:relative;overflow:hidden;cursor:default;
+  box-shadow:0 4px 20px rgba(0,0,0,.06);
+}
+.contact-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(201,162,39,.04),transparent);
+  opacity:0;transition:opacity .35s;pointer-events:none;z-index:0;
+}
+.contact-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--grad-brand);transform:scaleX(0);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);pointer-events:none;z-index:0;
+}
+.contact-card:hover{border-color:rgba(201,162,39,.3);transform:translateY(-6px);box-shadow:0 20px 52px rgba(0,0,0,.1),0 0 0 1px rgba(201,162,39,.1)}
+.contact-card:hover::before{opacity:1}
+.contact-card:hover::after{transform:scaleX(1)}
+.contact-card>*{position:relative;z-index:1}
+.contact-icon{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 1.125rem;transition:all .32s cubic-bezier(.4,0,.2,1)}
+.contact-card:hover .contact-icon{transform:scale(1.1) rotate(-6deg) translateY(-2px)}
+.contact-card h4{font-family:var(--font-display);font-size:.95rem;font-weight:800;margin-bottom:.4rem;color:var(--text)}
+.contact-card p{color:var(--text2);font-size:.82rem;line-height:1.55}
+.contact-action-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  margin-top:1rem;padding:.55rem 1.125rem;border-radius:10px;
+  font-size:.78rem;font-weight:800;transition:all .22s;
+  border:1px solid transparent;position:relative;z-index:2;
+}
+.contact-action-btn:hover{transform:translateY(-2px)}
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+footer{
+  background:var(--dark-bg);border-top:1px solid rgba(255,255,255,.06);
+  padding:4.5rem 24px 2rem;
+}
+.footer-inner{max-width:1160px;margin:0 auto}
+.footer-logo-text{font-family:var(--font-display);font-weight:800;font-size:.95rem;letter-spacing:-.02em;color:#fff}
+.footer-logo-sub{font-size:.55rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.18em}
+.footer-link{display:flex;align-items:center;gap:.55rem;font-size:.82rem;color:rgba(255,255,255,.5);transition:all .2s;padding:.2rem 0}
+.footer-link:hover{color:var(--gold);transform:translateX(3px)}
+.footer-h{font-family:var(--font-display);color:#fff;font-weight:800;font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.875rem}
+.footer-social{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;transition:all .22s}
+.footer-social:hover{border-color:rgba(201,162,39,.4);background:rgba(201,162,39,.1)}
+
+/* ═══════════════════════════════════════════════
+   WHATSAPP FAB + BOTTOM BAR
+═══════════════════════════════════════════════ */
+.wa-float{
+  position:fixed;bottom:calc(5.5rem + env(safe-area-inset-bottom,0px));right:1.5rem;
+  z-index:490;width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(135deg,#25d366,#128c7e);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 28px rgba(37,211,102,.5);
+  transition:transform .28s cubic-bezier(.4,0,.2,1),box-shadow .28s;
+  text-decoration:none;
+}
+.wa-float::after{
+  content:'';position:absolute;inset:-4px;border-radius:50%;
+  border:2px solid rgba(37,211,102,.4);
+  animation:ringPulse 2.2s cubic-bezier(.215,.61,.355,1) infinite;
+}
+.wa-float:hover{transform:scale(1.12) translateY(-4px)!important;box-shadow:0 12px 44px rgba(37,211,102,.7)}
+
+.wa-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:489;
+  background:rgba(26,22,20,.97);backdrop-filter:blur(24px) saturate(180%);
+  border-top:1px solid rgba(201,162,39,.15);
+  padding:.75rem 1.25rem calc(.75rem + env(safe-area-inset-bottom,0px));
+  box-shadow:0 -4px 24px rgba(0,0,0,.25);
+}
+.wa-bar-btn{
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  width:100%;border:none;border-radius:14px;padding:.9rem;
+  font-family:var(--font-body);font-size:.92rem;font-weight:900;cursor:pointer;
+  background:var(--grad-brand);color:#fff;
+  box-shadow:0 5px 24px var(--red-glow);
+  transition:all .25s;position:relative;overflow:hidden;text-decoration:none;letter-spacing:.04em;
+}
+.wa-bar-btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background .22s;pointer-events:none}
+.wa-bar-btn:hover::before{background:rgba(255,255,255,.1)}
+.wa-bar-btn:hover{transform:translateY(-1px);box-shadow:0 9px 32px var(--red-glow)}
+
+/* ═══════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════ */
+#toast{
+  position:fixed;bottom:7rem;left:50%;
+  transform:translateX(-50%) translateY(60px);
+  background:rgba(26,22,20,.97);color:#fff;
+  padding:.875rem 1.75rem;border-radius:999px;
+  font-size:.85rem;font-weight:700;
+  opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);
+  z-index:9999;white-space:nowrap;pointer-events:none;
+  max-width:90vw;text-align:center;
+  box-shadow:0 12px 40px rgba(0,0,0,.3);
+  border:1px solid rgba(201,162,39,.2);
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ═══════════════════════════════════════════════
+   ADMIN PANEL — dark theme (preserved styles)
+═══════════════════════════════════════════════ */
+#adm{
+  display:none;position:fixed;inset:0;z-index:1000;flex-direction:column;overflow:hidden;
+  --bg:#06090f;--bg2:#0b1120;--surface:#0e1628;--surface2:#131e35;--surface3:#192540;
+  --bdr:#1a2c4a;--bdr2:#243d63;--text:#e8f4ff;--muted:#607b99;--muted2:#8ba6c4;
+  background:var(--bg);
+}
+#adm.on{display:flex}
+#adm-login{display:flex;flex:1;align-items:center;justify-content:center;padding:1.5rem;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(227,30,36,.12) 0%,transparent 70%)}
+.login-box{background:var(--surface);border:1px solid var(--bdr2);border-radius:24px;padding:2.25rem;width:100%;max-width:380px;box-shadow:0 40px 90px rgba(0,0,0,.7)}
+.login-icon{width:72px;height:72px;border-radius:22px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;box-shadow:0 14px 48px rgba(227,30,36,.3);animation:float 4s ease-in-out infinite}
+.login-icon img{width:100%;height:100%;object-fit:cover}
+#adm-bar{height:60px;background:var(--surface);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 1rem;flex-shrink:0;position:sticky;top:0;z-index:30}
+#adm-shell{display:none;flex:1;flex-direction:column;min-height:0;overflow:hidden}
+#adm-shell.on{display:flex}
+#adm-main{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;background:var(--bg);padding-bottom:80px}
+#adm-bottom{height:68px;background:var(--surface);border-top:1px solid var(--bdr);display:flex;align-items:stretch;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,0)}
+.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;border:none;background:transparent;cursor:pointer;color:var(--muted);font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;transition:color .2s;padding:.5rem 0;touch-action:manipulation;font-family:var(--font-body)}
+.bnav-btn .bi{width:22px;height:22px;transition:transform .22s}
+.bnav-btn.active{color:#E31E24}.bnav-btn.active .bi{transform:scale(1.18)}
+.adm-tab{display:none;padding:1rem 1rem 0}.adm-tab.on{display:block}
+.adm-head{display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem;margin-bottom:1.25rem}
+.adm-title{font-size:1.5rem;font-weight:900;color:var(--text);letter-spacing:-.03em;font-family:var(--font-display)}
+.adm-sub{font-size:.8rem;color:var(--muted);margin-top:.15rem}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem}
+.stat-c{background:var(--surface);border:1px solid var(--bdr);border-radius:16px;padding:1rem;position:relative;overflow:hidden;transition:border-color .22s}
+.stat-c:hover{border-color:rgba(227,30,36,.25)}
+.stat-num2{font-size:2.2rem;font-weight:900;line-height:1;color:var(--text);margin:.5rem 0 .25rem;font-family:var(--font-display)}
+.stat-lbl{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.stat-icon2{position:absolute;right:.875rem;top:.875rem;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.avc{background:var(--surface);border:1px solid var(--bdr);border-radius:16px;overflow:hidden;transition:border-color .22s;margin-bottom:.75rem}
+.avc:hover{border-color:rgba(227,30,36,.25)}
+.avc-top{display:flex;gap:.875rem;padding:.875rem}
+.avc-img{width:92px;height:74px;border-radius:10px;object-fit:cover;flex-shrink:0;background:var(--surface2)}
+.avc-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:.3rem}
+.avc-name{font-size:.95rem;font-weight:800;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.avc-cat{display:inline-flex;align-items:center;padding:.15rem .6rem;border-radius:999px;font-size:.65rem;font-weight:800;background:rgba(227,30,36,.12);color:#E31E24;width:fit-content}
+.avc-price{font-size:.95rem;font-weight:900;color:#00d97e}
+.avc-badge{padding:.18rem .6rem;border-radius:999px;font-size:.62rem;font-weight:800}
+.avc-avail{background:rgba(0,217,126,.12);color:#00d97e}
+.avc-rented{background:rgba(227,30,36,.12);color:#E31E24}
+.avc-actions{display:flex;border-top:1px solid var(--bdr)}
+.avc-act-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:.45rem;padding:.75rem;border:none;cursor:pointer;font-family:var(--font-body);font-size:.78rem;font-weight:700;transition:background .15s;touch-action:manipulation;min-height:48px}
+.avc-act-toggle{background:rgba(255,255,255,.03);color:var(--muted2);border-right:1px solid var(--bdr)}
+.avc-act-toggle:hover{background:rgba(255,255,255,.06)}
+.avc-act-edit{background:rgba(227,30,36,.07);color:#E31E24;border-right:1px solid var(--bdr)}
+.avc-act-edit:hover{background:rgba(227,30,36,.16)}
+.avc-act-del{background:rgba(227,30,36,.07);color:#E31E24}
+.avc-act-del:hover{background:rgba(227,30,36,.2)}
+.tog{width:46px;height:26px;background:var(--bdr2);border-radius:999px;position:relative;transition:background .3s;flex-shrink:0;cursor:pointer}
+.tog.on{background:#00d97e}
+.tog::after{content:'';position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .3s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.tog.on::after{transform:translateX(20px)}
+.rc{background:var(--surface);border:1px solid var(--bdr);border-radius:16px;overflow:hidden;margin-bottom:.75rem}
+.rc-head{padding:.875rem 1rem;display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem;border-bottom:1px solid var(--bdr)}
+.rc-body{padding:.75rem 1rem}
+.rc-row{display:flex;align-items:center;gap:.5rem;font-size:.78rem;color:var(--muted2);margin-bottom:.4rem}
+.rc-wa{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.75rem;background:rgba(0,217,126,.07);color:#00d97e;border:none;border-top:1px solid var(--bdr);width:100%;font-family:var(--font-body);font-size:.85rem;font-weight:700;cursor:pointer;text-decoration:none;transition:background .15s;min-height:48px}
+.rc-wa:hover{background:rgba(0,217,126,.14)}
+.cc{background:var(--surface);border:1px solid var(--bdr);border-radius:16px;padding:1rem;margin-bottom:.75rem}
+.cc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem;margin-bottom:.875rem}
+.cc-prices{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.cc-price-box{background:var(--bg);border:1px solid var(--bdr);border-radius:10px;padding:.75rem;text-align:center}
+.cc-price-num{font-size:1.1rem;font-weight:900;line-height:1;font-family:var(--font-display)}
+.cc-price-label{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:.25rem}
+.abtn{display:inline-flex;align-items:center;gap:.45rem;padding:.65rem 1.2rem;border-radius:11px;border:none;font-family:var(--font-body);font-size:.85rem;font-weight:800;cursor:pointer;transition:all .22s;touch-action:manipulation;min-height:44px}
+.abtn-blue{background:linear-gradient(135deg,#E31E24,#FF6B6B);color:#fff}
+.abtn-blue:hover{opacity:.9;box-shadow:0 4px 18px rgba(227,30,36,.4);transform:translateY(-1px)}
+.abtn-red{background:rgba(227,30,36,.12);color:#E31E24;border:1px solid rgba(227,30,36,.2)}
+.abtn-red:hover{background:rgba(227,30,36,.22)}
+.abtn-ghost{background:rgba(255,255,255,.05);color:var(--muted2);border:1px solid var(--bdr)}
+.abtn-ghost:hover{background:rgba(255,255,255,.09)}
+.abtn-sm{padding:.42rem .875rem;font-size:.78rem;min-height:36px}
+.abtn-icon{padding:.5rem;min-width:36px;justify-content:center}
+.albl{display:block;font-size:.65rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.14em;margin-bottom:.4rem}
+.ainp{
+  width:100%;padding:.72rem .875rem;
+  background:var(--surface2);border:1px solid var(--bdr);
+  border-radius:10px;color:var(--text);
+  font-family:var(--font-body);font-size:.9rem;outline:none;
+  transition:border-color .2s,box-shadow .2s;min-height:44px;
+  -webkit-appearance:none;color-scheme:dark;
+}
+.ainp:focus{border-color:rgba(227,30,36,.45);box-shadow:0 0 0 3px rgba(227,30,36,.1)}
+.ainp option{background:#0e1628}
+.qa{display:flex;flex-wrap:wrap;gap:.625rem;margin-bottom:.875rem}
+.qa-btn{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.6rem 1rem;border-radius:10px;
+  background:var(--surface2);border:1px solid var(--bdr2);
+  color:var(--muted2);font-size:.8rem;font-weight:700;
+  cursor:pointer;font-family:var(--font-body);transition:all .18s;min-height:40px;
+}
+.qa-btn:hover{background:rgba(227,30,36,.1);border-color:rgba(227,30,36,.3);color:#E31E24}
+.spin{border:2.5px solid rgba(255,255,255,.2);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+.spin-red{border:2.5px solid rgba(227,30,36,.2);border-top-color:#E31E24;border-radius:50%;width:24px;height:24px;animation:spin .7s linear infinite}
+.modal-wrap{display:none;position:fixed;inset:0;z-index:1100;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.7);backdrop-filter:blur(10px)}
+.modal-wrap.on{display:flex;animation:fadeIn .2s ease}
+@media(min-width:540px){.modal-wrap{align-items:center}}
+.modal-box{background:var(--surface);border:1px solid var(--bdr2);border-radius:20px 20px 0 0;width:100%;max-width:500px;max-height:90svh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+@media(min-width:540px){.modal-box{border-radius:20px}}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--bdr);position:sticky;top:0;background:var(--surface);z-index:2}
+.modal-foot{display:flex;gap:.625rem;justify-content:flex-end;padding:1rem 1.5rem;border-top:1px solid var(--bdr);position:sticky;bottom:0;background:var(--surface);z-index:2}
+.upzone{border:1.5px dashed var(--bdr2);border-radius:12px;padding:1.5rem;text-align:center;cursor:pointer;transition:all .2s}
+.upzone:hover,.upzone.dragover{border-color:rgba(227,30,36,.4);background:rgba(227,30,36,.04)}
+.img-chip{display:inline-flex;align-items:center;gap:.35rem;background:var(--surface2);border:1px solid var(--bdr);border-radius:8px;padding:.25rem .5rem .25rem .25rem}
+.img-chip img{width:36px;height:36px;border-radius:6px;object-fit:cover}
+.img-chip button{background:rgba(227,30,36,.12);color:#E31E24;border:none;border-radius:6px;width:22px;height:22px;font-size:.7rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ TOPBAR MARQUEE ═══════════════ -->
+<div class="topbar">
+  <div class="topbar-inner">
+    Renta de Vehículos &nbsp;<span>•</span>&nbsp; Entrega a Domicilio &nbsp;<span>•</span>&nbsp; Seguro Incluido &nbsp;<span>•</span>&nbsp; Atención 24/7 &nbsp;<span>•</span>&nbsp; Pick Up · Sedán · SUV &nbsp;<span>•</span>&nbsp; Kilómetros Ilimitados &nbsp;<span>•</span>&nbsp; Renta con Chofer &nbsp;<span>•</span>&nbsp; Salida del País &nbsp;<span>•</span>&nbsp;
+    Renta de Vehículos &nbsp;<span>•</span>&nbsp; Entrega a Domicilio &nbsp;<span>•</span>&nbsp; Seguro Incluido &nbsp;<span>•</span>&nbsp; Atención 24/7 &nbsp;<span>•</span>&nbsp; Pick Up · Sedán · SUV &nbsp;<span>•</span>&nbsp; Kilómetros Ilimitados &nbsp;<span>•</span>&nbsp; Renta con Chofer &nbsp;<span>•</span>&nbsp; Salida del País &nbsp;<span>•</span>&nbsp;
+  </div>
+</div>
+
+<!-- ═══════════════ NAVBAR ═══════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">
+        <img src="" alt="Logo" id="logo-img"/>
+      </div>
+      <div>
+        <div class="logo-text" id="logo-name"></div>
+        <div class="logo-sub" id="logo-tagline"></div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
+      <li><a href="#flota" class="nav-link">Flota</a></li>
+      <li><a href="#reservar" class="nav-link">Reservar</a></li>
+      <li><a href="#tarifas" class="nav-link">Tarifas</a></li>
+      <li><a href="#contacto" class="nav-link">Contacto</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" id="nav-wa-btn" class="nav-wa">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a href="#reservar" class="nav-cta">
+        Reservar ahora →
+      </a>
+      <button class="nav-admin-btn" onclick="openAdmin()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Admin
+      </button>
+      <button class="hamburger" onclick="openMobileNav()" aria-label="Menú">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════ MOBILE NAV ═══════════════ -->
+<div id="menu-backdrop" onclick="closeMobileNav()"></div>
+<nav id="mobile-nav" role="dialog" aria-label="Menú móvil">
+  <div class="mn-header">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <div style="width:38px;height:38px;border-radius:11px;overflow:hidden;border:1px solid rgba(201,162,39,.3)">
+          <img id="mn-logo-img" src="" alt="Logo" style="width:100%;height:100%;object-fit:cover"/>
+        </div>
+        <div>
+          <div style="font-family:var(--font-display);font-weight:800;font-size:.88rem;color:var(--text)" id="mn-logo-name"></div>
+          <div style="font-size:.52rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.18em;" id="mn-logo-tagline"></div>
+        </div>
+      </div>
+      <button onclick="closeMobileNav()" style="width:32px;height:32px;border-radius:9px;background:rgba(0,0,0,.06);border:1px solid rgba(0,0,0,.1);color:var(--text2);font-size:1.1rem;display:flex;align-items:center;justify-content:center">✕</button>
+    </div>
+  </div>
+  <div style="padding:.625rem 0">
+    <div class="mn-label">Navegación</div>
+    <button class="mnav-link" onclick="closeMobileNav();lenis.scrollTo(document.querySelector('#nosotros'),{offset:-70})">
+      <span class="mnav-icon"><svg width="14" height="14" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span>Nosotros
+    </button>
+    <button class="mnav-link" onclick="closeMobileNav();lenis.scrollTo(document.querySelector('#flota'),{offset:-70})">
+      <span class="mnav-icon"><svg width="14" height="14" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>Flota
+    </button>
+    <button class="mnav-link" onclick="closeMobileNav();lenis.scrollTo(document.querySelector('#reservar'),{offset:-70})">
+      <span class="mnav-icon"><svg width="14" height="14" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>Reservar
+    </button>
+    <button class="mnav-link" onclick="closeMobileNav();lenis.scrollTo(document.querySelector('#tarifas'),{offset:-70})">
+      <span class="mnav-icon"><svg width="14" height="14" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Tarifas
+    </button>
+    <button class="mnav-link" onclick="closeMobileNav();lenis.scrollTo(document.querySelector('#contacto'),{offset:-70})">
+      <span class="mnav-icon"><svg width="14" height="14" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.23h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.92a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg></span>Contacto
+    </button>
+    <div class="mn-sep"></div>
+    <div class="mn-label">Acciones</div>
+    <a href="#" id="mn-wa-btn" class="mnav-link" target="_blank" rel="noopener">
+      <span class="mnav-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--green)"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
+      <span style="color:var(--green)">WhatsApp directo</span>
+    </a>
+    <button class="mnav-link" onclick="closeMobileNav();openAdmin()">
+      <span class="mnav-icon"><svg width="14" height="14" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>Panel Admin
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-bg-img"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="eyebrow" id="hero-eyebrow">Disponible ahora</div>
+      </div>
+      <h1 class="hero-title">
+        <span class="hero-line"><span class="hero-line-inner">Tu Aventura</span></span>
+        <span class="hero-line"><span class="hero-line-inner">Comienza</span></span>
+        <span class="hero-line"><span class="hero-line-inner grad-text">Aquí</span></span>
+      </h1>
+      <p class="hero-sub" id="hero-sub">
+        Viaja con confianza. <strong>Seguro incluido</strong>, entrega a domicilio y atención personalizada en cada reserva.
+      </p>
+      <div class="hero-cta-row" id="hero-cta">
+        <a href="#reservar" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Reservar ahora
+        </a>
+        <a href="#flota" class="btn-ghost">Ver flota →</a>
+      </div>
+      <div class="hero-stats" id="hero-stats">
+        <div>
+          <div class="h-stat-num" id="stat-vehicles">0+</div>
+          <div class="h-stat-lbl">Vehículos</div>
+        </div>
+        <div class="stat-div"></div>
+        <div>
+          <div class="h-stat-num">24/7</div>
+          <div class="h-stat-lbl">Disponible</div>
+        </div>
+        <div class="stat-div"></div>
+        <div>
+          <div class="h-stat-num">100%</div>
+          <div class="h-stat-lbl">Seguro incluido</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual" id="hero-visual">
+      <div class="hero-car-card">
+        <div class="hero-price-badge">
+          <div class="hpb-price"></div>
+          <div class="hpb-lbl">Precios accessibles</div>
+        </div>
+        <div class="hero-car-img-wrap">
+          <img src="https://res.cloudinary.com/dxmtd2mga/image/upload/q_auto/f_auto/v1780064473/198f830b-087d-49df-8beb-8d46b610f51d_w5yfeq.jpg" alt="Vehículos disponibles" loading="eager"/>
+        </div>
+        <div class="hero-car-badges">
+          <span class="hcb hcb-green">✓ Seguro incluido</span>
+          <span class="hcb hcb-red">Listos para ti</span>
+        </div>
+        <div class="hero-car-name">Vehículos garantizados</div>
+        <div class="hero-car-tags">
+          <span class="hero-car-tag"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Automáticos/Manuales</span>
+          <span class="hero-car-tag"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>5 pasajeros</span>
+          <span class="hero-car-tag"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Seguro incluido</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-wheel"><div class="scroll-dot"></div></div>
+    <span class="scroll-txt">Descubrir</span>
+  </div>
+</section>
+
+<!-- ═══════════════ SEARCH BAR ═══════════════ -->
+
+    </div>
+    <button class="search-btn" onclick="lenis.scrollTo(document.querySelector('#reservar'),{offset:-70})">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      reservar vehículo
+    </button>
+  </div>
+
+
+<!-- ═══════════════ MARQUEE ═══════════════ -->
+<div class="marquee-bar" style="margin-top:3rem">
+  <div class="marquee-track">
+    <span class="marquee-item">Pick Up 4×4</span>
+    <span class="marquee-item">Sedán de lujo</span>
+    <span class="marquee-item">SUV Familiar</span>
+    <span class="marquee-item">Entrega en aeropuerto</span>
+    <span class="marquee-item">Seguro incluido</span>
+    <span class="marquee-item">Renta con chofer</span>
+    <span class="marquee-item">Salida del país</span>
+    <span class="marquee-item">Atención 24/7</span>
+    <span class="marquee-item">Kilómetros ilimitados</span>
+    <span class="marquee-item">Pick Up 4×4</span>
+    <span class="marquee-item">Sedán de lujo</span>
+    <span class="marquee-item">SUV Familiar</span>
+    <span class="marquee-item">Entrega en aeropuerto</span>
+    <span class="marquee-item">Seguro incluido</span>
+    <span class="marquee-item">Renta con chofer</span>
+    <span class="marquee-item">Salida del país</span>
+    <span class="marquee-item">Atención 24/7</span>
+    <span class="marquee-item">Kilómetros ilimitados</span>
+  </div>
+</div>
+
+<!-- ═══════════════ BENEFITS ═══════════════ -->
+<div class="benefits">
+  <div class="benefits-grid">
+    <div class="benefit-item">
+      <div class="benefit-icon-wrap"><svg class="benefit-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <div class="benefit-label">Atención<br>24/7</div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon-wrap"><svg class="benefit-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+      <div class="benefit-label">Entrega<br>a domicilio</div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon-wrap"><svg class="benefit-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="benefit-label">Seguro<br>incluido</div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon-wrap"><svg class="benefit-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="benefit-label">Proceso<br>rápido</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SOBRE NOSOTROS ═══════════════ -->
+<div id="nosotros" class="about-wrap">
+  <div class="section" style="padding-top:5rem;padding-bottom:5rem">
+    <div class="about-grid">
+      <div>
+        <div class="section-hd">
+          <div class="section-tag">Quiénes somos</div>
+          <h2 class="section-title">Sobre Nosotros</h2>
+          <div class="section-divider"></div>
+        </div>
+        <p class="about-desc" id="about-desc">Somos una empresa dedicada a la renta de vehículos con un compromiso real: brindar un servicio confiable, accesible y de alta calidad para clientes nacionales e internacionales.</p>
+        <div class="about-mv">
+          <div class="about-mv-item">
+            <div class="about-mv-title">🎯 Misión</div>
+            <div class="about-mv-text">Brindar soluciones de transporte seguras, cómodas y accesibles para todos nuestros clientes, con atención personalizada en cada reserva.</div>
+          </div>
+          <div class="about-mv-item">
+            <div class="about-mv-title">🚀 Visión</div>
+            <div class="about-mv-text">Ser la empresa líder en renta de vehículos, reconocida por nuestra calidad, confiabilidad y compromiso con el cliente.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-hd">
+          <div class="section-tag">Lo que ofrecemos</div>
+          <h2 class="section-title">Nuestros Servicios</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="services-list">
+          <div class="service-item"><div class="service-dot"><svg class="service-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div><span class="service-text">Entrega gratis en aeropuerto</span></div>
+          <div class="service-item"><div class="service-dot"><svg class="service-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><span class="service-text">Servicio a domicilio en todo el país</span></div>
+          <div class="service-item"><div class="service-dot"><svg class="service-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><span class="service-text">Renta de vehículos con chofer</span></div>
+          <div class="service-item"><div class="service-dot"><svg class="service-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><span class="service-text">Salida del país con autorización notariada</span></div>
+          <div class="service-item"><div class="service-dot"><svg class="service-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><span class="service-text">Asientos para bebé disponibles</span></div>
+          <div class="service-item"><div class="service-dot"><svg class="service-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span class="service-text">Seguro incluido en todos los vehículos</span></div>
+          <div class="service-item"><div class="service-dot"><svg class="service-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><span class="service-text">Reservas fáciles y rápidas</span></div>
+          <div class="service-item"><div class="service-dot"><svg class="service-icon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><span class="service-text">Flota moderna: Pick Up, Sedán, SUV</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ MARCAS ═══════════════ -->
+<div class="brands-section">
+  <div class="brands-inner">
+    <div class="section-hd" style="text-align:center;margin-bottom:0">
+      <div class="section-tag" style="justify-content:center">Flota de calidad</div>
+      <h2 class="section-title">Trabajamos con las Mejores Marcas</h2>
+      <div class="section-divider" style="margin:.875rem auto 0"></div>
+    </div>
+    <div class="brands-grid">
+      <div class="brand-item">Toyota</div>
+      <div class="brand-item">Nissan</div>
+      <div class="brand-item">Hyundai</div>
+      <div class="brand-item">KIA</div>
+      <div class="brand-item">Chevrolet</div>
+      <div class="brand-item">Honda</div>
+      <div class="brand-item">Ford</div>
+      <div class="brand-item">Mazda</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ FLOTA ═══════════════ -->
+<section id="flota" class="section">
+  <div class="section-hd">
+    <div class="section-tag">Nuestros vehículos</div>
+    <h2 class="section-title">Flota Disponible</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="filter-wrap" id="filter-tabs"></div>
+  <div id="car-grid" class="vehicle-list"></div>
+</section>
+
+<!-- ═══════════════ TRUST SECTION ═══════════════ -->
+<div class="trust-section">
+  <div class="trust-inner">
+    <div class="trust-img-wrap">
+      <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=800&auto=format&fit=crop" alt="Turistas felices" loading="lazy"/>
+      <div class="trust-img-overlay"></div>
+    </div>
+    <div class="trust-content">
+      <div class="section-hd" style="margin-bottom:0">
+        <div class="section-tag">Por qué elegirnos</div>
+        <h2 class="section-title">Tu Confianza es Nuestra Prioridad</h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="trust-points">
+        <div class="trust-point">
+          <div class="trust-point-icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--gold)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="trust-point-title">Seguro incluido en todos los vehículos</div>
+            <div class="trust-point-text">Cada vehículo de nuestra flota incluye seguro completo sin costos adicionales. Tu tranquilidad es lo primero.</div>
+          </div>
+        </div>
+        <div class="trust-point">
+          <div class="trust-point-icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--gold)"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="trust-point-title">Atención personalizada 24/7</div>
+            <div class="trust-point-text">Estamos disponibles las 24 horas, los 7 días de la semana. Un equipo humano listo para ayudarte en todo momento.</div>
+          </div>
+        </div>
+        <div class="trust-point">
+          <div class="trust-point-icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="color:var(--gold)"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+          <div>
+            <div class="trust-point-title">Entrega a domicilio sin costo extra</div>
+            <div class="trust-point-text">Te llevamos el vehículo directamente a tu puerta o al aeropuerto. Sin filas, sin esperas innecesarias.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ RESERVAR ═══════════════ -->
+<div id="reservar" class="booking-wrap">
+  <div class="section" style="padding-top:5rem;padding-bottom:5rem">
+    <div style="max-width:640px;margin:0 auto">
+      <div class="section-hd" style="text-align:center">
+        <div class="section-tag" style="justify-content:center">Reserva en minutos</div>
+        <h2 class="section-title">Reserva tu Vehículo</h2>
+        <div class="section-divider" style="margin:.875rem auto 0"></div>
+        <p style="margin-top:.875rem;font-size:.88rem;color:var(--text2);max-width:440px;margin-left:auto;margin-right:auto;line-height:1.7">Llena el formulario y recibirás confirmación directa por WhatsApp.</p>
+      </div>
+      <div class="widget-wrap">
+        <div class="widget-head">
+          <div class="widget-head-title">📋 Detalles de la reserva</div>
+          <div class="widget-head-sub" id="widget-biz-sub"></div>
+        </div>
+        <form class="widget-body" id="reserve-form" novalidate>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.875rem">
+            <div>
+              <label class="wlabel">📅 Fecha Recogida</label>
+              <input type="date" id="r-fecha-in" class="wfield"/>
+              <p class="ferr" id="err-fecha-in">Fecha requerida.</p>
+            </div>
+            <div>
+              <label class="wlabel">⏰ Hora</label>
+              <input type="time" id="r-hora-in" class="wfield" value="08:00"/>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.875rem">
+            <div>
+              <label class="wlabel">📅 Fecha Devolución</label>
+              <input type="date" id="r-fecha-out" class="wfield"/>
+              <p class="ferr" id="err-fecha-out">Fecha requerida.</p>
+            </div>
+            <div>
+              <label class="wlabel">⏰ Hora</label>
+              <input type="time" id="r-hora-out" class="wfield" value="08:00"/>
+            </div>
+          </div>
+          <div>
+            <label class="wlabel">🚗 Tipo de Vehículo</label>
+            <select id="r-tipo" class="wfield"></select>
+          </div>
+          <div>
+            <label class="wlabel">👤 Tu Nombre Completo</label>
+            <input type="text" id="r-nombre" class="wfield" placeholder="Nombre completo"/>
+            <p class="ferr" id="err-nombre">Ingresa tu nombre.</p>
+          </div>
+          <div>
+            <label class="wlabel">📱 WhatsApp / Teléfono</label>
+            <input type="tel" id="r-tel" class="wfield" placeholder="+503 0000-0000"/>
+            <p class="ferr" id="err-tel">Ingresa tu teléfono.</p>
+          </div>
+          <div id="reserve-summary" class="wsummary">
+            <div style="display:flex;justify-content:space-between;font-size:.875rem;font-weight:700;color:var(--text2)">
+              <span>Días solicitados:</span><span id="s-days" style="color:var(--gold);font-weight:900">—</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:.875rem;font-weight:700;color:var(--text2);margin-top:.5rem">
+              <span>Estimado total:</span><span id="s-total" style="color:var(--green);font-weight:900;font-size:1.05rem">—</span>
+            </div>
+          </div>
+          <button type="submit" id="reserve-btn" class="reserve-submit-btn">
+            <svg width="19" height="19" id="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span id="btn-text">ENVIAR RESERVA POR WHATSAPP</span>
+            <div class="spin" id="btn-spinner" style="display:none;width:20px;height:20px"></div>
+          </button>
+          <p style="text-align:center;font-size:.68rem;color:var(--text3);margin-top:-.25rem">Al reservar aceptas nuestros <a href="#" style="color:var(--gold)">términos de servicio</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CTA BANNER ═══════════════ -->
+<div class="cta-banner">
+  <div class="cta-banner-inner">
+    <div class="cta-banner-eyebrow">La mejor elección</div>
+    <h2 class="cta-banner-title">Explora el Mundo,<br>Nosotros te Llevamos</h2>
+    <p class="cta-banner-sub">Reserva tu vehículo hoy y disfruta de un servicio de renta confiable, seguro y a tu medida. Kilómetros ilimitados, seguro incluido.</p>
+    <div class="cta-banner-actions">
+      <button class="cta-btn-gold" onclick="lenis.scrollTo(document.querySelector('#reservar'),{offset:-70})">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Reservar ahora
+      </button>
+      <button class="cta-btn-outline-white" onclick="lenis.scrollTo(document.querySelector('#flota'),{offset:-70})">
+        Ver flota disponible →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TARIFAS ═══════════════ -->
+<section id="tarifas" class="section">
+  <div class="section-hd" style="text-align:center">
+    <div class="section-tag" style="justify-content:center">Precios transparentes</div>
+    <h2 class="section-title">Nuestras Tarifas</h2>
+    <div class="section-divider" style="margin:.875rem auto 0"></div>
+  </div>
+  <div style="overflow-x:auto;margin-top:2rem">
+    <div class="rates-wrap" style="min-width:480px">
+      <table><thead><tr><th>Categoría</th><th>Por Día</th><th>Por Semana</th><th>Por Mes</th><th>Incluye</th></tr></thead>
+      <tbody id="rates-table"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CONTACTO ═══════════════ -->
+<section id="contacto" class="section" style="padding-bottom:7rem">
+  <div class="section-hd" style="text-align:center">
+    <div class="section-tag" style="justify-content:center">Estamos para servirte</div>
+    <h2 class="section-title">Contáctanos</h2>
+    <div class="section-divider" style="margin:.875rem auto 0"></div>
+  </div>
+  <div class="contact-grid" style="margin-top:2.5rem">
+    <!-- WhatsApp -->
+    <div class="contact-card">
+      <div class="contact-icon" style="background:rgba(0,194,107,.08);border:1.5px solid rgba(0,194,107,.22)">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--green)"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </div>
+      <h4>WhatsApp</h4>
+      <p id="contact-wa-info"><span id="contact-wa-phone"></span><br><small style="font-size:.76rem;color:var(--text3)">Respuesta inmediata</small></p>
+      <a href="#" id="contact-wa-link" target="_blank" rel="noopener" class="contact-action-btn" style="background:rgba(0,194,107,.08);color:var(--green);border-color:rgba(0,194,107,.25)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Escribir ahora →
+      </a>
+    </div>
+    <!-- Correo -->
+    <div class="contact-card">
+      <div class="contact-icon" style="background:rgba(201,162,39,.07);border:1.5px solid rgba(201,162,39,.2)">
+        <svg width="28" height="28" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <h4>Correo</h4>
+      <p><span id="contact-email-text"></span><br><small style="font-size:.76rem;color:var(--text3)">Respuesta en 24h</small></p>
+      <a href="#" id="contact-email-link" class="contact-action-btn" style="background:rgba(201,162,39,.07);color:var(--gold);border-color:rgba(201,162,39,.25)">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Enviar correo →
+      </a>
+    </div>
+    <!-- Instagram -->
+    <div class="contact-card">
+      <div class="contact-icon" style="background:linear-gradient(135deg,rgba(131,58,180,.1),rgba(253,29,29,.08));border:1.5px solid rgba(131,58,180,.2)">
+        <svg width="28" height="28" fill="none" viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#833ab4"/><stop offset="50%" stop-color="#fd1d1d"/><stop offset="100%" stop-color="#fcb045"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="url(#ig)" stroke-width="2"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="url(#ig)" stroke-width="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="url(#ig)" stroke-width="2"/></svg>
+      </div>
+      <h4>Instagram</h4>
+      <p><span id="contact-ig-handle"></span><br><small style="font-size:.76rem;color:var(--text3)">Fotos de nuestra flota</small></p>
+      <a href="#" id="contact-ig-link" target="_blank" rel="noopener" class="contact-action-btn" style="background:linear-gradient(135deg,rgba(131,58,180,.08),rgba(253,29,29,.06));color:#C13584;border-color:rgba(131,58,180,.2)">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        Ver perfil →
+      </a>
+    </div>
+    <!-- Facebook -->
+    <div class="contact-card">
+      <div class="contact-icon" style="background:rgba(24,119,242,.08);border:1.5px solid rgba(24,119,242,.22)">
+        <svg width="28" height="28" fill="#1877F2" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </div>
+      <h4>Facebook</h4>
+      <p><span id="contact-fb-name"></span><br><small style="font-size:.76rem;color:var(--text3)">Síguenos y comenta</small></p>
+      <a href="#" id="contact-fb-link" target="_blank" rel="noopener" class="contact-action-btn" style="background:rgba(24,119,242,.08);color:#1877F2;border-color:rgba(24,119,242,.25)">
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Ver página →
+      </a>
+    </div>
+    <!-- Ubicación -->
+    <div class="contact-card">
+      <div class="contact-icon" style="background:rgba(201,162,39,.07);border:1.5px solid rgba(201,162,39,.22)">
+        <svg width="28" height="28" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <h4>Ubicación</h4>
+      <p><span id="contact-location"></span><br><small style="font-size:.76rem;color:var(--text3)">Servicio en todo el país</small></p>
+      <a href="#" id="contact-maps-link" target="_blank" rel="noopener" class="contact-action-btn" style="background:rgba(201,162,39,.07);color:var(--gold);border-color:rgba(201,162,39,.25)">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Ver en mapa →
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2.5rem;margin-bottom:2.5rem">
+      <div>
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
+          <div style="width:38px;height:38px;border-radius:12px;overflow:hidden;border:1px solid rgba(201,162,39,.3);box-shadow:0 3px 14px var(--red-glow)">
+            <img id="footer-logo-img" src="" alt="Logo" style="width:100%;height:100%;object-fit:cover"/>
+          </div>
+          <div>
+            <div class="footer-logo-text" id="footer-biz-name"></div>
+            <div class="footer-logo-sub" id="footer-biz-sub"></div>
+          </div>
+        </div>
+        <p id="footer-about" style="font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.72"></p>
+        <div style="display:flex;gap:.5rem;margin-top:1rem">
+          <a href="#" id="footer-ig-link" target="_blank" rel="noopener" class="footer-social"><svg width="15" height="15" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="#" id="footer-fb-link" target="_blank" rel="noopener" class="footer-social"><svg width="15" height="15" fill="#1877F2" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a href="#" id="footer-wa-link" target="_blank" rel="noopener" class="footer-social"><svg width="15" height="15" viewBox="0 0 24 24" fill="var(--green)"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-h">Servicios</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.45rem;font-size:.82rem;color:rgba(255,255,255,.45)">
+          <li>Sedán / Económico</li><li>Pick Up / Camioneta</li><li>SUV / 4×4</li>
+          <li>Entrega en aeropuerto</li><li>Renta con chofer</li><li>Salida del país autorizada</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-h">Contacto</h4>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.55rem">
+          <li><a href="#" id="footer-wa-tel" target="_blank" rel="noopener" class="footer-link"><svg width="12" height="12" viewBox="0 0 24 24" fill="var(--green)"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> <span id="footer-phone-txt"></span></a></li>
+          <li><a href="#" id="footer-email-link" class="footer-link"><svg width="12" height="12" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> <span id="footer-email-txt"></span></a></li>
+          <li><a href="#" id="footer-ig-contact" target="_blank" rel="noopener" class="footer-link"><svg width="12" height="12" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/></svg> <span id="footer-ig-txt"></span></a></li>
+          <li><a href="#" id="footer-maps-link" target="_blank" rel="noopener" class="footer-link"><svg width="12" height="12" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> <span id="footer-location-txt"></span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.07);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.875rem">
+      <p id="footer-copyright" style="font-size:.73rem;color:rgba(255,255,255,.3)"></p>
+      <p style="font-size:.73rem;color:rgba(255,255,255,.3)">Hecho con ❤️</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════ WHATSAPP FAB + BOTTOM BAR ═══════════════ -->
+<a href="#" id="wa-float-link" target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<div class="wa-bar">
+  <a href="#" id="wa-bar-link" target="_blank" rel="noopener" class="wa-bar-btn">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span>📲 RESERVAR POR WHATSAPP</span>
+  </a>
+</div>
+
+<div id="toast"></div>
+
+<!-- ═══════════════ ADMIN PANEL ═══════════════ -->
+<div id="adm">
+  <div id="adm-login">
+    <div class="login-box">
+      <div style="text-align:center;margin-bottom:2rem">
+        <div class="login-icon">
+          <img id="adm-login-logo" src="" alt="Logo"/>
+        </div>
+        <h1 style="font-size:1.5rem;font-weight:900;color:var(--text);letter-spacing:-.04em;font-family:var(--font-display)">Panel Admin</h1>
+        <p id="adm-biz-name" style="font-size:.82rem;color:var(--muted);margin-top:.3rem"></p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1.125rem">
+        <div><label class="albl">Correo electrónico</label><input type="email" id="login-user" class="ainp" placeholder="admin@tucorreo.com"/></div>
+        <div><label class="albl">Contraseña</label><input type="password" id="login-pass" class="ainp" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+        <p id="login-error" style="display:none;color:#E31E24;font-size:.82rem;text-align:center;background:rgba(227,30,36,.08);border-radius:.625rem;padding:.75rem;border:1px solid rgba(227,30,36,.2)"></p>
+        <button onclick="doLogin()" id="login-btn" class="abtn abtn-blue" style="width:100%;justify-content:center;font-size:1rem;padding:.9rem">Iniciar sesión</button>
+      </div>
+      <button onclick="closeAdmin()" style="display:block;width:100%;text-align:center;margin-top:1.125rem;padding:.625rem;color:var(--muted);background:transparent;border:none;font-family:var(--font-body);font-size:.85rem;cursor:pointer">← Volver al sitio</button>
+    </div>
+  </div>
+
+  <div id="adm-shell">
+    <div id="adm-bar">
+      <div style="display:flex;align-items:center;gap:.875rem">
+        <div style="width:34px;height:34px;border-radius:11px;overflow:hidden;border:1px solid rgba(227,30,36,.25)">
+          <img id="adm-bar-logo" src="" alt="Logo" style="width:100%;height:100%;object-fit:cover"/>
+        </div>
+        <div>
+          <div style="color:var(--text);font-weight:900;font-size:.92rem;line-height:1;font-family:var(--font-display)">Admin Panel</div>
+          <div id="adm-email-lbl" style="color:var(--muted);font-size:.67rem;line-height:1;margin-top:.18rem"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:.5rem">
+        <button onclick="closeAdmin()" class="abtn abtn-ghost abtn-sm">← Sitio</button>
+        <button onclick="doLogout()" class="abtn abtn-red abtn-sm">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="adm-main">
+      <div id="tab-dash" class="adm-tab on">
+        <div class="adm-head">
+          <div><div class="adm-title">Dashboard</div><div class="adm-sub" id="dash-date"></div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-c"><div class="stat-lbl">Vehículos</div><div class="stat-num2" id="d-total">0</div><div class="stat-icon2" style="background:rgba(227,30,36,.1)"><svg width="18" height="18" fill="none" stroke="#E31E24" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div></div>
+          <div class="stat-c"><div class="stat-lbl">Disponibles</div><div class="stat-num2" style="color:#00d97e" id="d-avail">0</div><div class="stat-icon2" style="background:rgba(0,217,126,.1)"><svg width="18" height="18" fill="none" stroke="#00d97e" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+          <div class="stat-c"><div class="stat-lbl">Categorías</div><div class="stat-num2" style="color:#f5c518" id="d-cats">0</div><div class="stat-icon2" style="background:rgba(245,197,24,.1)"><svg width="18" height="18" fill="none" stroke="#f5c518" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div></div>
+          <div class="stat-c"><div class="stat-lbl">Reservas</div><div class="stat-num2" style="color:#E31E24" id="d-reserv">0</div><div class="stat-icon2" style="background:rgba(227,30,36,.1)"><svg width="18" height="18" fill="none" stroke="#E31E24" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div></div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--bdr);border-radius:16px;padding:1rem;margin-bottom:.875rem">
+          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#00d97e"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            <span style="font-size:.85rem;font-weight:800;color:var(--text)">Número WhatsApp</span>
+          </div>
+          <div style="display:flex;gap:.625rem;align-items:center">
+            <input type="text" id="wa-number-input" class="ainp" style="flex:1" placeholder="50377443687"/>
+            <button onclick="updateWANumber()" class="abtn abtn-blue abtn-sm">Guardar</button>
+          </div>
+          <p style="font-size:.7rem;color:var(--muted);margin-top:.4rem">Incluye código de país sin +. Actual: <span id="wa-current"></span></p>
+        </div>
+        <div class="qa">
+          <button class="qa-btn" onclick="switchTab('vehicles');openVehicleModal()">+ Nuevo vehículo</button>
+          <button class="qa-btn" onclick="switchTab('cats');openCatModal()">+ Nueva categoría</button>
+          <button class="qa-btn" onclick="switchTab('reserv')">Ver reservas</button>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--bdr);border-radius:16px;padding:1rem">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem">
+            <span style="font-size:.875rem;font-weight:800;color:var(--text)">Vehículos recientes</span>
+            <button onclick="switchTab('vehicles')" class="qa-btn" style="padding:.3rem .75rem;font-size:.68rem">Ver todos →</button>
+          </div>
+          <div id="d-preview"></div>
+        </div>
+      </div>
+
+      <div id="tab-vehicles" class="adm-tab">
+        <div class="adm-head">
+          <div><div class="adm-title">Vehículos</div><div class="adm-sub">Gestiona tu flota completa</div></div>
+          <button onclick="openVehicleModal()" class="abtn abtn-blue">+ Agregar</button>
+        </div>
+        <div id="vehicles-list"></div>
+      </div>
+
+      <div id="tab-cats" class="adm-tab">
+        <div class="adm-head">
+          <div><div class="adm-title">Categorías</div><div class="adm-sub">Tipos de vehículos y precios</div></div>
+          <button onclick="openCatModal()" class="abtn abtn-blue">+ Nueva</button>
+        </div>
+        <div id="cats-list"></div>
+      </div>
+
+      <div id="tab-reserv" class="adm-tab">
+        <div class="adm-head">
+          <div><div class="adm-title">Reservaciones</div><div class="adm-sub">Solicitudes recibidas</div></div>
+          <button onclick="clearReservations()" class="abtn abtn-ghost abtn-sm">Limpiar todo</button>
+        </div>
+        <div id="reserv-list"></div>
+      </div>
+    </div>
+
+    <div id="adm-bottom">
+      <button class="bnav-btn active" id="bnav-dash" onclick="switchTab('dash')">
+        <svg class="bi" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>Inicio</span>
+      </button>
+      <button class="bnav-btn" id="bnav-vehicles" onclick="switchTab('vehicles')">
+        <svg class="bi" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><span>Autos</span>
+      </button>
+      <button class="bnav-btn" id="bnav-cats" onclick="switchTab('cats')">
+        <svg class="bi" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg><span>Categ.</span>
+      </button>
+      <button class="bnav-btn" id="bnav-reserv" onclick="switchTab('reserv')">
+        <svg class="bi" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Reservas</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ VEHICLE MODAL ═══════════════ -->
+<div class="modal-wrap" id="vehicle-modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="vm-title" style="font-size:1.1rem;font-weight:900;color:var(--text);font-family:var(--font-display)">Agregar Vehículo</h3>
+      <button onclick="closeVehicleModal()" class="abtn abtn-ghost abtn-icon" style="width:36px;height:36px">✕</button>
+    </div>
+    <div style="padding:1.5rem;display:flex;flex-direction:column;gap:1rem">
+      <div>
+        <label class="albl">Imágenes</label>
+        <div id="imgs-preview" style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.625rem"></div>
+        <div class="upzone" id="upload-zone" onclick="document.getElementById('img-file').click()"
+          ondragover="event.preventDefault();this.classList.add('dragover')"
+          ondragleave="this.classList.remove('dragover')"
+          ondrop="handleDrop(event)">
+          <div id="upload-placeholder">
+            <svg width="28" height="28" fill="none" stroke="var(--muted)" stroke-width="1.5" viewBox="0 0 24 24" style="display:block;margin:0 auto .5rem"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+            <p style="font-size:.82rem;color:var(--muted)"><span style="color:#E31E24;font-weight:700">Click</span> o arrastra imagen</p>
+            <p style="font-size:.72rem;color:var(--bdr2);margin-top:.25rem">PNG, JPG, WEBP</p>
+          </div>
+          <div id="upload-loading" style="display:none;text-align:center"><div class="spin spin-red" style="margin:0 auto .5rem"></div><p style="font-size:.82rem;color:var(--muted)">Subiendo…</p></div>
+          <input type="file" id="img-file" accept="image/*" style="display:none" onchange="uploadImg(this)" multiple/>
+        </div>
+        <p id="img-error" style="display:none;color:#E31E24;font-size:.72rem;margin-top:.3rem"></p>
+        <div style="margin-top:.875rem">
+          <label class="albl">O pega URL de imagen</label>
+          <div style="display:flex;gap:.5rem">
+            <input type="url" id="vm-img-url" class="ainp" style="flex:1" placeholder="https://..."/>
+            <button onclick="addUrlImg()" class="abtn abtn-blue abtn-sm">+ Agregar</button>
+          </div>
+        </div>
+      </div>
+      <div style="height:1px;background:var(--bdr)"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.875rem">
+        <div style="grid-column:1/-1"><label class="albl">Nombre del Vehículo *</label><input type="text" id="vm-name" class="ainp" placeholder="Ej: Toyota Hilux 2023"/></div>
+        <div style="grid-column:1/-1"><label class="albl">Categoría *</label><select id="vm-cat" class="ainp"></select></div>
+        <div><label class="albl">Precio/Día (USD)</label><input type="number" id="vm-price" class="ainp" placeholder="45" min="1"/></div>
+        <div><label class="albl">Pasajeros</label><input type="number" id="vm-passengers" class="ainp" placeholder="5" min="1" max="20"/></div>
+        <div><label class="albl">Transmisión</label><select id="vm-trans" class="ainp"><option>Automático</option><option>Manual</option></select></div>
+        <div><label class="albl">Combustible</label><select id="vm-fuel" class="ainp"><option>Gasolina</option><option>Diesel</option><option>Híbrido</option><option>Eléctrico</option></select></div>
+        <div style="grid-column:1/-1"><label class="albl">Descripción</label><input type="text" id="vm-desc" class="ainp" placeholder="Breve descripción"/></div>
+      </div>
+      <div style="padding:1rem;background:var(--bg2);border:1px solid var(--bdr);border-radius:12px">
+        <label style="display:flex;align-items:center;gap:1rem;cursor:pointer">
+          <div class="tog on" id="vm-avail-toggle" onclick="this.classList.toggle('on')"></div>
+          <div>
+            <div style="font-size:.9rem;font-weight:700;color:var(--text)">Disponible para renta</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:.18rem">Si está off aparecerá como "Rentado"</div>
+          </div>
+        </label>
+      </div>
+      <p id="vm-error" style="display:none;color:#E31E24;font-size:.82rem;padding:.625rem;background:rgba(227,30,36,.06);border-radius:.625rem;border:1px solid rgba(227,30,36,.15)"></p>
+    </div>
+    <div class="modal-foot">
+      <button onclick="closeVehicleModal()" class="abtn abtn-ghost">Cancelar</button>
+      <button onclick="saveVehicle()" class="abtn abtn-blue">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        <span id="vm-save-text">Guardar</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CATEGORY MODAL ═══════════════ -->
+<div class="modal-wrap" id="cat-modal">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-head">
+      <h3 id="cm-title" style="font-size:1.1rem;font-weight:900;color:var(--text);font-family:var(--font-display)">Nueva Categoría</h3>
+      <button onclick="closeCatModal()" class="abtn abtn-ghost abtn-icon" style="width:36px;height:36px">✕</button>
+    </div>
+    <div style="padding:1.5rem;display:flex;flex-direction:column;gap:1rem">
+      <div><label class="albl">Nombre *</label><input type="text" id="cm-name" class="ainp" placeholder="Pick Up, Sedán…"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.875rem">
+        <div><label class="albl">Precio/día (USD)</label><input type="number" id="cm-price" class="ainp" placeholder="50" min="1"/></div>
+        <div><label class="albl">Precio semana</label><input type="number" id="cm-week" class="ainp" placeholder="300" min="1"/></div>
+      </div>
+      <div><label class="albl">Incluye</label><input type="text" id="cm-inc" class="ainp" placeholder="Seguro · Km ilim."/></div>
+      <p id="cm-error" style="display:none;color:#E31E24;font-size:.82rem;padding:.625rem;background:rgba(227,30,36,.06);border-radius:.625rem"></p>
+    </div>
+    <div class="modal-foot">
+      <button onclick="closeCatModal()" class="abtn abtn-ghost">Cancelar</button>
+      <button onclick="saveCat()" class="abtn abtn-blue">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Guardar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+   ANIMACIONES (GSAP + Three.js + Lenis)
+════════════════════════════════════════════════ -->
+<script>
+// ── Lenis smooth scroll
+const lenis = new Lenis({
+  duration: 1.25,
+  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  smoothTouch: false,
+});
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add(time => lenis.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+
+// ── Nav scroll style
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// ── Three.js particle hero (gold theme)
+(function initHeroParticles() {
+  const canvas = document.getElementById('hero-canvas');
+  const isMobile = window.innerWidth < 768;
+  const COUNT = isMobile ? 700 : 2200;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 4;
+
+  const geo = new THREE.BufferGeometry();
+  const positions = new Float32Array(COUNT * 3);
+  const colors    = new Float32Array(COUNT * 3);
+  for (let i = 0; i < COUNT; i++) {
+    positions[i*3]   = (Math.random() - 0.5) * 14;
+    positions[i*3+1] = (Math.random() - 0.5) * 10;
+    positions[i*3+2] = (Math.random() - 0.5) * 7;
+    const t = Math.random();
+    // Gold/amber tones — darker so visible on white background
+    colors[i*3]   = 0.55 + t * 0.2;   // R
+    colors[i*3+1] = 0.40 + t * 0.15;  // G
+    colors[i*3+2] = 0.05 + t * 0.05;  // B
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('color',    new THREE.BufferAttribute(colors, 3));
+
+  const mat = new THREE.PointsMaterial({
+    size: isMobile ? 0.028 : 0.018,
+    vertexColors: true,
+    transparent: true, opacity: 0.35, sizeAttenuation: true,
+  });
+  const particles = new THREE.Points(geo, mat);
+  scene.add(particles);
+
+  const geoShape = new THREE.IcosahedronGeometry(1.8, 1);
+  const matShape = new THREE.MeshBasicMaterial({ color: 0xC9A227, wireframe: true, transparent: true, opacity: 0.06 });
+  const shape = new THREE.Mesh(geoShape, matShape);
+  shape.position.x = isMobile ? 0 : 3;
+  scene.add(shape);
+
+  let mx = 0, my = 0;
+  document.addEventListener('mousemove', e => {
+    mx = (e.clientX / window.innerWidth  - 0.5);
+    my = (e.clientY / window.innerHeight - 0.5);
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    particles.rotation.y += 0.00045;
+    if (!isMobile) {
+      particles.rotation.x += (my * 0.25 - particles.rotation.x) * 0.022;
+      particles.rotation.y += (mx * 0.25 - particles.rotation.y) * 0.022;
+    }
+    shape.rotation.x += 0.003;
+    shape.rotation.y += 0.005;
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+})();
+
+// ── GSAP hero entrance
+gsap.registerPlugin(ScrollTrigger);
+const heroTl = gsap.timeline({ delay: 0.15 });
+heroTl
+  .fromTo('#hero-eyebrow',
+    { opacity: 0, y: 18 },
+    { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out' })
+  .fromTo('.hero-line .hero-line-inner',
+    { opacity: 0, y: 72, skewY: 3 },
+    { opacity: 1, y: 0, skewY: 0, duration: 0.9, stagger: 0.11, ease: 'power4.out' }, '-=0.35')
+  .fromTo('#hero-sub',
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out' }, '-=0.4')
+  .fromTo('#hero-cta',
+    { opacity: 0, y: 20 },
+    { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' }, '-=0.35')
+  .fromTo('#hero-stats',
+    { opacity: 0, y: 16 },
+    { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' }, '-=0.3')
+  .fromTo('#hero-visual',
+    { opacity: 0, x: 50 },
+    { opacity: 1, x: 0, duration: 0.85, ease: 'power3.out' }, '-=0.7');
+
+// ── Scroll reveals
+gsap.utils.toArray('.benefit-item').forEach((el, i) => {
+  gsap.fromTo(el,
+    { opacity: 0, y: 36 },
+    { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out', delay: i * 0.08,
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+    });
+});
+
+['.about-desc','.about-mv-item','.service-item'].forEach(sel => {
+  gsap.utils.toArray(sel).forEach((el, i) => {
+    gsap.fromTo(el,
+      { opacity: 0, x: -30 },
+      { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out', delay: i * 0.06,
+        scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' }
+      });
+  });
+});
+
+gsap.utils.toArray('.section-hd').forEach(el => {
+  gsap.fromTo(el,
+    { opacity: 0, y: 28 },
+    { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+    });
+});
+
+gsap.utils.toArray('.contact-card').forEach((el, i) => {
+  gsap.fromTo(el,
+    { opacity: 0, y: 36, scale: 0.93 },
+    { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out', delay: i * 0.09,
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+    });
+});
+gsap.utils.toArray('.rates-wrap').forEach(el => {
+  gsap.fromTo(el,
+    { opacity: 0, y: 30 },
+    { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
+    });
+});
+
+gsap.fromTo('.widget-wrap',
+  { opacity: 0, y: 40 },
+  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
+    scrollTrigger: { trigger: '.widget-wrap', start: 'top 88%', toggleActions: 'play none none none' }
+  });
+
+function initMagnetic() {
+  document.querySelectorAll('.btn-primary, .wa-bar-btn, .reserve-submit-btn').forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect();
+      gsap.to(el, { x: (e.clientX - r.left - r.width/2) * 0.18, y: (e.clientY - r.top - r.height/2) * 0.18, duration: 0.35, ease: 'power2.out' });
+    });
+    el.addEventListener('mouseleave', () => {
+      gsap.to(el, { x: 0, y: 0, duration: 0.65, ease: 'elastic.out(1,.5)' });
+    });
+  });
+}
+setTimeout(initMagnetic, 1000);
+
+// ── Smooth anchor scrolling via Lenis
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  const target = document.querySelector(a.getAttribute('href'));
+  if (target) { e.preventDefault(); lenis.scrollTo(target, { offset: -70 }); }
+});
+
+// ── Mobile nav — BUG FIX: overflow:hidden en body al abrir
+window.openMobileNav = () => {
+  document.getElementById('mobile-nav').classList.add('open');
+  document.getElementById('menu-backdrop').classList.add('show');
+  document.body.style.overflow = 'hidden';
+};
+window.closeMobileNav = () => {
+  document.getElementById('mobile-nav').classList.remove('open');
+  document.getElementById('menu-backdrop').classList.remove('show');
+  document.body.style.overflow = '';
+};
+
+// ════════════════════════════════════════════════════
+// APPLY BIZ CONFIG — inyecta businessConfig en el DOM
+// ════════════════════════════════════════════════════
+function applyBizConfig() {
+  const waUrl     = `https://wa.me/${BIZ.whatsapp}?text=${encodeURIComponent('Hola, quiero rentar un vehículo')}`;
+  const waUrlRaw  = `https://wa.me/${BIZ.whatsapp}`;
+  const fullName  = `${BIZ.name} ${BIZ.slogan}`;
+
+  // Meta & title
+  document.title = `${fullName} — Renta de Vehículos`;
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.content = `${fullName} — Renta de vehículos rápida, segura y confiable. Entrega a domicilio, seguro incluido.`;
+
+  // Favicon
+  const favicon = document.getElementById('favicon');
+  if (favicon) favicon.href = BIZ.logoUrl;
+
+  // Logos
+  ['logo-img','mn-logo-img','footer-logo-img','adm-login-logo','adm-bar-logo'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.src = BIZ.logoUrl; el.alt = BIZ.name + ' Logo'; }
+  });
+
+  // Navbar logo
+  const logoName = document.getElementById('logo-name');
+  if (logoName) logoName.textContent = fullName;
+  const logoTagline = document.getElementById('logo-tagline');
+  if (logoTagline) logoTagline.textContent = BIZ.tagline;
+
+  // Mobile nav logo
+  const mnName = document.getElementById('mn-logo-name');
+  if (mnName) mnName.textContent = fullName;
+  const mnTag = document.getElementById('mn-logo-tagline');
+  if (mnTag) mnTag.textContent = BIZ.tagline;
+
+  // Navbar WA button
+  const navWa = document.getElementById('nav-wa-btn');
+  if (navWa) navWa.href = waUrl;
+  const mnWa = document.getElementById('mn-wa-btn');
+  if (mnWa) mnWa.href = waUrl;
+
+  // Widget sub header
+  const wSub = document.getElementById('widget-biz-sub');
+  if (wSub) wSub.textContent = `${fullName} · ${BIZ.location} · Atención en todo el país`;
+
+  // Contact — WhatsApp
+  const cWaPhone = document.getElementById('contact-wa-phone');
+  if (cWaPhone) cWaPhone.textContent = BIZ.phone;
+  const cWaLink = document.getElementById('contact-wa-link');
+  if (cWaLink) cWaLink.href = waUrl;
+
+  // Contact — Email
+  const cEmailTxt = document.getElementById('contact-email-text');
+  if (cEmailTxt) cEmailTxt.textContent = BIZ.email;
+  const cEmailLink = document.getElementById('contact-email-link');
+  if (cEmailLink) cEmailLink.href = `mailto:${BIZ.email}`;
+
+  // Contact — Instagram
+  const cIgHandle = document.getElementById('contact-ig-handle');
+  if (cIgHandle) cIgHandle.textContent = BIZ.instagram;
+  const cIgLink = document.getElementById('contact-ig-link');
+  if (cIgLink) cIgLink.href = BIZ.instagramUrl;
+
+  // Contact — Facebook
+  const cFbName = document.getElementById('contact-fb-name');
+  if (cFbName) cFbName.textContent = BIZ.facebook;
+  const cFbLink = document.getElementById('contact-fb-link');
+  if (cFbLink) cFbLink.href = BIZ.facebookUrl;
+
+  // Contact — Ubicación
+  const cLoc = document.getElementById('contact-location');
+  if (cLoc) cLoc.textContent = `${BIZ.location}, ${BIZ.country}`;
+  const cMaps = document.getElementById('contact-maps-link');
+  if (cMaps) cMaps.href = BIZ.mapsUrl;
+
+  // Footer
+  const fName = document.getElementById('footer-biz-name');
+  if (fName) fName.textContent = fullName;
+  const fSub = document.getElementById('footer-biz-sub');
+  if (fSub) fSub.textContent = `${BIZ.tagline} · ${BIZ.country}`;
+  const fAbout = document.getElementById('footer-about');
+  if (fAbout) fAbout.textContent = BIZ.shortDesc;
+
+  const fIg = document.getElementById('footer-ig-link');
+  if (fIg) fIg.href = BIZ.instagramUrl;
+  const fFb = document.getElementById('footer-fb-link');
+  if (fFb) fFb.href = BIZ.facebookUrl;
+  const fWa = document.getElementById('footer-wa-link');
+  if (fWa) fWa.href = waUrlRaw;
+
+  const fWaTel = document.getElementById('footer-wa-tel');
+  if (fWaTel) fWaTel.href = waUrlRaw;
+  const fPhoneTxt = document.getElementById('footer-phone-txt');
+  if (fPhoneTxt) fPhoneTxt.textContent = BIZ.phone;
+
+  const fEmailLink = document.getElementById('footer-email-link');
+  if (fEmailLink) fEmailLink.href = `mailto:${BIZ.email}`;
+  const fEmailTxt = document.getElementById('footer-email-txt');
+  if (fEmailTxt) fEmailTxt.textContent = BIZ.email;
+
+  const fIgContact = document.getElementById('footer-ig-contact');
+  if (fIgContact) fIgContact.href = BIZ.instagramUrl;
+  const fIgTxt = document.getElementById('footer-ig-txt');
+  if (fIgTxt) fIgTxt.textContent = BIZ.instagram;
+
+  const fMaps = document.getElementById('footer-maps-link');
+  if (fMaps) fMaps.href = BIZ.mapsUrl;
+  const fLocTxt = document.getElementById('footer-location-txt');
+  if (fLocTxt) fLocTxt.textContent = `${BIZ.location}, ${BIZ.country}`;
+
+  const fCopy = document.getElementById('footer-copyright');
+  if (fCopy) fCopy.textContent = `© ${BIZ.year} ${fullName} — Todos los derechos reservados.`;
+
+  // WA float & bar
+  const waFloat = document.getElementById('wa-float-link');
+  if (waFloat) waFloat.href = waUrl;
+  const waBar = document.getElementById('wa-bar-link');
+  if (waBar) waBar.href = waUrl;
+
+  // Admin panel
+  const admBiz = document.getElementById('adm-biz-name');
+  if (admBiz) admBiz.textContent = `${fullName} — Panel de Administración`;
+}
+
+document.addEventListener('DOMContentLoaded', applyBizConfig);
+</script>
+
+<!-- ═══════════════════════════════════════════════
+   FIREBASE + CLOUDINARY — 100% ORIGINAL LOGIC
+   CFG toma los valores dinámicamente de BIZ
+═══════════════════════════════════════════════ -->
+<script type="module">
+const CFG = {
+  whatsapp:     BIZ.whatsapp,
+  location:     `${BIZ.location}, ${BIZ.country}`,
+  cloudName:    BIZ.cloudName,
+  uploadPreset: BIZ.uploadPreset,
+};
+
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getAnalytics}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+import{getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{getFirestore,collection,doc,addDoc,updateDoc,deleteDoc,onSnapshot,query,orderBy,serverTimestamp,writeBatch,getDocs}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig={apiKey:"AIzaSyBTzrrZisbPG4M4mKBWgkrebARgFlJp8os",authDomain:"renta-car-martinez.firebaseapp.com",projectId:"renta-car-martinez",storageBucket:"renta-car-martinez.firebasestorage.app",messagingSenderId:"1052742481978",appId:"1:1052742481978:web:8f7bd29b9b00415722dd03",measurementId:"G-C756QLMHBH"};
+const fbApp=initializeApp(firebaseConfig);
+try{getAnalytics(fbApp);}catch{}
+const auth=getAuth(fbApp);
+const db=getFirestore(fbApp);
+
+let vehicles=[],categories=[],reservations=[];
+let editingVehicleId=null,editingCatId=null,pendingImgs=[];
+let currentFilter="todos",seeded=false;
+const FALLBACK="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=600";
+
+const SEED_CATS=[
+  {nombre:"Sedán",precioDia:42,precioSemana:250,incluye:"Seguro · Km ilim. · A/C"},
+  {nombre:"Pick Up",precioDia:62,precioSemana:370,incluye:"Seguro · Km ilim. · 4×4"},
+  {nombre:"Camioneta",precioDia:55,precioSemana:330,incluye:"Seguro · Km ilim. · Carga"},
+  {nombre:"SUV",precioDia:75,precioSemana:450,incluye:"Seguro · Km ilim. · GPS"},
+  {nombre:"Económico",precioDia:35,precioSemana:200,incluye:"Seguro · Km ilim."},
+];
+const SEED_AUTOS=[
+  {nombre:"Toyota Corolla 2023",categoria:"Sedán",precio:45,pasajeros:5,transmision:"Automático",combustible:"Gasolina",descripcion:"Cómodo y económico para la ciudad y carretera.",disponible:true,imagenes:["https://images.unsplash.com/photo-1590362891991-f776e747a588?q=80&w=800"]},
+  {nombre:"Honda Civic 2022",categoria:"Sedán",precio:42,pasajeros:5,transmision:"Automático",combustible:"Gasolina",descripcion:"Deportivo y moderno con excelente rendimiento.",disponible:true,imagenes:["https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?q=80&w=800"]},
+  {nombre:"Nissan Sentra 2023",categoria:"Sedán",precio:null,pasajeros:5,transmision:"Automático",combustible:"Gasolina",descripcion:"Elegante y eficiente. Precio especial disponible.",disponible:true,imagenes:["https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=800"]},
+  {nombre:"Toyota Hilux 2023",categoria:"Pick Up",precio:65,pasajeros:5,transmision:"Automático",combustible:"Diesel",descripcion:"La pick up más vendida. Ideal para trabajo y campo.",disponible:true,imagenes:["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800"]},
+  {nombre:"Ford Ranger 2023",categoria:"Pick Up",precio:60,pasajeros:5,transmision:"Manual",combustible:"Diesel",descripcion:"Potente y versátil para cualquier terreno.",disponible:true,imagenes:["https://images.unsplash.com/photo-1564978786576-2c77501dd7a1?q=80&w=800"]},
+  {nombre:"Toyota RAV4 2023",categoria:"SUV",precio:75,pasajeros:5,transmision:"Automático",combustible:"Híbrido",descripcion:"SUV híbrida con máxima comodidad y eficiencia.",disponible:true,imagenes:["https://images.unsplash.com/photo-1617469767827-d7b2c90e4ef2?q=80&w=800"]},
+  {nombre:"Toyota Yaris 2023",categoria:"Económico",precio:35,pasajeros:5,transmision:"Automático",combustible:"Gasolina",descripcion:"El compacto perfecto para moverse en la ciudad.",disponible:true,imagenes:["https://images.unsplash.com/photo-1609521263047-f8f205293f24?q=80&w=800"]},
+];
+
+async function seedDataIfEmpty(){
+  if(seeded)return;
+  try{
+    const[cs,as]=await Promise.all([getDocs(collection(db,"categorias")),getDocs(collection(db,"autos"))]);
+    if(cs.empty&&as.empty){
+      seeded=true;
+      const b1=writeBatch(db);SEED_CATS.forEach(c=>b1.set(doc(collection(db,"categorias")),c));await b1.commit();
+      const b2=writeBatch(db);SEED_AUTOS.forEach(a=>b2.set(doc(collection(db,"autos")),a));await b2.commit();
+      showToast("✅ Datos de muestra cargados");
+    }else{seeded=true;}
+  }catch(e){console.warn("Seed:",e);}
+}
+
+onSnapshot(query(collection(db,"autos"),orderBy("nombre")),snap=>{
+  vehicles=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderPublicCars();renderFilterTabs();updateHeroStats();renderAdmin();
+});
+onSnapshot(query(collection(db,"categorias"),orderBy("nombre")),snap=>{
+  categories=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderRates();renderFilterTabs();renderAdmin();
+  const sel=document.getElementById("r-tipo");
+  if(sel)sel.innerHTML=`<option value="">Cualquier tipo</option>`+categories.map(c=>`<option value="${c.nombre}">${c.nombre} — $${c.precioDia||"?"}/día</option>`).join("");
+});
+onSnapshot(query(collection(db,"reservas"),orderBy("fecha","desc")),snap=>{
+  reservations=snap.docs.map(d=>({id:d.id,...d.data()}));
+  renderAdmin();
+});
+seedDataIfEmpty();
+
+function getImgs(v){
+  if(v.imagenes&&v.imagenes.length)return v.imagenes;
+  if(v.imagen)return[v.imagen];
+  return[FALLBACK];
+}
+function waIcon(fill="#fff"){
+  return`<svg width="18" height="18" viewBox="0 0 24 24" fill="${fill}"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+}
+
+function renderPublicCars(){
+  const grid=document.getElementById("car-grid");
+  const list=currentFilter==="todos"?vehicles.filter(v=>v.disponible):vehicles.filter(v=>v.disponible&&v.categoria===currentFilter);
+  if(!list.length){
+    grid.innerHTML=`<div class="vc-no-vehicles"><svg width="48" height="48" fill="none" stroke="rgba(0,0,0,.1)" stroke-width="1.5" viewBox="0 0 24 24" style="display:block;margin:0 auto 1rem"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><p style="font-weight:700;font-size:.95rem">No hay vehículos disponibles.</p></div>`;
+    return;
+  }
+  grid.innerHTML=list.map((v,i)=>{
+    const imgs=getImgs(v);
+    const price=v.precio?`<div><span class="vc-price">$${v.precio}</span><span class="vc-price-day">/día</span></div>`:`<div><span style="font-size:.82rem;font-weight:700;color:var(--text3)">Consultar</span></div>`;
+    return`<div class="vc-card" style="animation-delay:${i*.07}s">
+      <div class="vc-img-wrap" id="slide-${v.id}">
+        <img class="vc-car-img" src="${imgs[0]}" onerror="this.src='${FALLBACK}'" alt="${v.nombre}" loading="lazy"/>
+        <div class="vc-img-overlay"></div>
+        ${imgs.length>1?`<button class="slide-btn slide-btn-prev" onclick="slideImg('${v.id}',-1)">‹</button><button class="slide-btn slide-btn-next" onclick="slideImg('${v.id}',1)">›</button>`:''}
+        <div class="vc-badge-cat">${v.categoria}</div>
+        <div class="vc-avail-dot">Disponible</div>
+      </div>
+      <div class="vc-body">
+        <div class="vc-name">${v.nombre}</div>
+        ${v.descripcion?`<div class="vc-desc">${v.descripcion}</div>`:''}
+        <div class="vc-tags">
+          <span class="vc-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>${v.pasajeros||5} pas.</span>
+          <span class="vc-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>${v.transmision||"Auto"}</span>
+          <span class="vc-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-10 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>${v.combustible||"Gas."}</span>
+        </div>
+        <div class="vc-footer">
+          ${price}
+          <button class="vc-reserve-btn" onclick="lenis.scrollTo(document.querySelector('#reservar'),{offset:-70});document.getElementById('r-tipo').value='${v.categoria}'">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Reservar
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+const slideIndexes={};
+window.slideImg=function(id,dir){
+  const v=vehicles.find(v=>v.id===id);if(!v)return;
+  const imgs=getImgs(v);if(imgs.length<2)return;
+  if(slideIndexes[id]===undefined)slideIndexes[id]=0;
+  slideIndexes[id]=(slideIndexes[id]+dir+imgs.length)%imgs.length;
+  const wrap=document.getElementById("slide-"+id);
+  if(wrap){const img=wrap.querySelector(".vc-car-img");if(img)img.src=imgs[slideIndexes[id]];}
+};
+
+function renderFilterTabs(){
+  const cats=["todos",...new Set(vehicles.filter(v=>v.disponible).map(v=>v.categoria))];
+  document.getElementById("filter-tabs").innerHTML=cats.map(c=>`<button class="ftab${c===currentFilter?" on":""}" onclick="setFilter('${c}')">${c==="todos"?"Todos":c}</button>`).join("");
+}
+window.setFilter=function(cat){currentFilter=cat;renderPublicCars();renderFilterTabs();};
+
+function updateHeroStats(){
+  const el=document.getElementById("stat-vehicles");
+  if(el)el.textContent=vehicles.filter(v=>v.disponible).length+"+";
+}
+
+function renderRates(){
+  const tbody=document.getElementById("rates-table");if(!tbody)return;
+  tbody.innerHTML=categories.length
+    ?categories.map(c=>`<tr>
+        <td>${c.nombre}</td>
+        <td><span class="rates-price">${c.precioDia?"$"+c.precioDia:"—"}</span></td>
+        <td><span class="rates-price">${c.precioSemana?"$"+c.precioSemana:"—"}</span></td>
+        <td><span class="rates-price">${c.precioDia?"$"+(c.precioDia*30).toFixed(0):"—"}</span></td>
+        <td style="font-size:.78rem;color:var(--text3)">${c.incluye||"—"}</td>
+      </tr>`).join("")
+    :`<tr><td colspan="5" style="text-align:center;padding:2.5rem;color:var(--text3)">Sin tarifas configuradas.</td></tr>`;
+}
+
+function renderAdmin(){
+  const dd=document.getElementById("dash-date");
+  if(dd)dd.textContent=new Date().toLocaleDateString("es",{weekday:"long",year:"numeric",month:"long",day:"numeric"});
+  const el=id=>document.getElementById(id);
+  if(el("d-total"))el("d-total").textContent=vehicles.length;
+  if(el("d-avail"))el("d-avail").textContent=vehicles.filter(v=>v.disponible).length;
+  if(el("d-cats"))el("d-cats").textContent=categories.length;
+  if(el("d-reserv"))el("d-reserv").textContent=reservations.length;
+  if(el("wa-current"))el("wa-current").textContent=CFG.whatsapp;
+  if(el("wa-number-input"))el("wa-number-input").placeholder=CFG.whatsapp;
+
+  const preview=el("d-preview");
+  if(preview)preview.innerHTML=vehicles.slice(0,3).map(v=>`
+    <div class="avc">
+      <div class="avc-top">
+        <img class="avc-img" src="${getImgs(v)[0]}" onerror="this.src='${FALLBACK}'" alt="${v.nombre}"/>
+        <div class="avc-info">
+          <div class="avc-name">${v.nombre}</div>
+          <span class="avc-cat">${v.categoria}</span>
+          <div class="avc-price">${v.precio?"$"+v.precio+"/día":"Consultar"}</div>
+        </div>
+        <span class="avc-badge ${v.disponible?"avc-avail":"avc-rented"}">${v.disponible?"Disponible":"Rentado"}</span>
+      </div>
+    </div>`).join("")||`<p style="font-size:.82rem;color:var(--muted);text-align:center;padding:1rem">Sin vehículos aún.</p>`;
+
+  const vl=el("vehicles-list");
+  if(vl)vl.innerHTML=vehicles.map(v=>`
+    <div class="avc">
+      <div class="avc-top">
+        <img class="avc-img" src="${getImgs(v)[0]}" onerror="this.src='${FALLBACK}'" alt="${v.nombre}"/>
+        <div class="avc-info">
+          <div class="avc-name">${v.nombre}</div>
+          <span class="avc-cat">${v.categoria}</span>
+          <div class="avc-price">${v.precio?"$"+v.precio+"/día":"Consultar"}</div>
+          <span class="avc-badge ${v.disponible?"avc-avail":"avc-rented"}">${v.disponible?"Disponible":"Rentado"}</span>
+        </div>
+      </div>
+      <div class="avc-actions">
+        <button class="avc-act-btn avc-act-toggle" onclick="toggleAvail('${v.id}',this)">
+          <div class="tog${v.disponible?" on":""}"></div>
+          <span>${v.disponible?"Disponible":"Rentado"}</span>
+        </button>
+        <button class="avc-act-btn avc-act-edit" onclick="openVehicleModal('${v.id}')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Editar
+        </button>
+        <button class="avc-act-btn avc-act-del" onclick="deleteVehicle('${v.id}')">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          Eliminar
+        </button>
+      </div>
+    </div>`).join("")||`<p style="font-size:.82rem;color:var(--muted);text-align:center;padding:2rem">Sin vehículos. Agrega uno.</p>`;
+
+  const cl=el("cats-list");
+  if(cl)cl.innerHTML=categories.map(c=>`
+    <div class="cc">
+      <div class="cc-head">
+        <div>
+          <div style="font-size:.95rem;font-weight:900;color:var(--text)">${c.nombre}</div>
+          <div style="font-size:.72rem;color:var(--muted);margin-top:.2rem">${c.incluye||""}</div>
+        </div>
+        <div style="display:flex;gap:.4rem">
+          <button onclick="openCatModal('${c.id}')" class="abtn abtn-ghost abtn-sm">Editar</button>
+          <button onclick="deleteCat('${c.id}')" class="abtn abtn-red abtn-sm">✕</button>
+        </div>
+      </div>
+      <div class="cc-prices">
+        <div class="cc-price-box">
+          <div class="cc-price-num" style="color:#E31E24">${c.precioDia?"$"+c.precioDia:"—"}</div>
+          <div class="cc-price-label">Por día</div>
+        </div>
+        <div class="cc-price-box">
+          <div class="cc-price-num" style="color:#f5c518">${c.precioSemana?"$"+c.precioSemana:"—"}</div>
+          <div class="cc-price-label">Por semana</div>
+        </div>
+      </div>
+    </div>`).join("")||`<p style="font-size:.82rem;color:var(--muted);text-align:center;padding:2rem">Sin categorías. Crea una.</p>`;
+
+  const rl=el("reserv-list");
+  if(rl)rl.innerHTML=reservations.length
+    ?reservations.map(r=>`
+      <div class="rc">
+        <div class="rc-head">
+          <div>
+            <div style="font-size:.92rem;font-weight:900;color:var(--text)">${r.nombre||"Sin nombre"}</div>
+            <div style="font-size:.72rem;color:var(--muted);margin-top:.18rem">${r.fecha?.toDate?.().toLocaleString("es")||"—"}</div>
+          </div>
+          <span style="font-size:.68rem;font-weight:800;background:rgba(227,30,36,.12);color:#E31E24;padding:.2rem .7rem;border-radius:999px">${r.dias||"?"} días</span>
+        </div>
+        <div class="rc-body">
+          <div class="rc-row">📱 ${r.telefono||"—"}</div>
+          <div class="rc-row">🚗 ${r.tipo||"Cualquier tipo"}</div>
+          <div class="rc-row">📅 Recogida: ${r.fechaRecogida||"—"} ${r.horaRecogida||""}</div>
+          <div class="rc-row">📅 Devolución: ${r.fechaDev||"—"} ${r.horaDev||""}</div>
+          <div class="rc-row">📍 ${CFG.location}</div>
+        </div>
+        <a href="https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(`Hola ${r.nombre}, confirmamos tu reserva de ${r.tipo||"vehículo"} del ${r.fechaRecogida||""} al ${r.fechaDev||""}.`)}" target="_blank" rel="noopener" class="rc-wa">
+          ${waIcon("#00d97e")} Confirmar por WhatsApp
+        </a>
+      </div>`).join("")
+    :`<div style="text-align:center;padding:4rem 1rem;color:var(--muted)">No hay reservaciones aún.</div>`;
+}
+
+window.updateWANumber=function(){
+  const val=document.getElementById("wa-number-input").value.trim();
+  if(!val){showToast("⚠️ Ingresa un número válido.");return;}
+  CFG.whatsapp=val;
+  const waUrl=`https://wa.me/${val}?text=${encodeURIComponent('Hola, quiero rentar un vehículo')}`;
+  ['wa-float-link','wa-bar-link','nav-wa-btn','mn-wa-btn','contact-wa-link'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.href=waUrl;
+  });
+  document.getElementById("wa-current").textContent=val;
+  showToast("✅ Número actualizado");
+};
+
+window.switchTab=function(tab){
+  ["dash","vehicles","cats","reserv"].forEach(t=>{
+    document.getElementById("tab-"+t).classList.remove("on");
+    const bn=document.getElementById("bnav-"+t);if(bn)bn.classList.remove("active");
+  });
+  document.getElementById("tab-"+tab).classList.add("on");
+  const bn=document.getElementById("bnav-"+tab);if(bn)bn.classList.add("active");
+  document.getElementById("adm-main").scrollTo({top:0,behavior:"smooth"});
+};
+
+window.openAdmin=function(){
+  document.getElementById("adm").classList.add("on");
+  document.body.style.overflow="hidden";
+  onAuthStateChanged(auth,user=>{
+    if(user)showAdminPanel(user);
+    else{document.getElementById("adm-login").style.display="flex";document.getElementById("adm-shell").classList.remove("on");}
+  },{onlyOnce:true});
+};
+window.closeAdmin=function(){document.getElementById("adm").classList.remove("on");document.body.style.overflow="";};
+window.doLogin=async function(){
+  const email=document.getElementById("login-user").value.trim();
+  const pass=document.getElementById("login-pass").value;
+  const errEl=document.getElementById("login-error");
+  const btn=document.getElementById("login-btn");
+  if(!email||!pass){errEl.textContent="Ingresa tu correo y contraseña.";errEl.style.display="block";return;}
+  btn.disabled=true;btn.textContent="Verificando…";errEl.style.display="none";
+  try{const cred=await signInWithEmailAndPassword(auth,email,pass);showAdminPanel(cred.user);}
+  catch{errEl.textContent="Correo o contraseña incorrectos.";errEl.style.display="block";document.getElementById("login-pass").value="";}
+  finally{btn.disabled=false;btn.textContent="Iniciar sesión";}
+};
+window.doLogout=async function(){
+  await signOut(auth);
+  document.getElementById("adm-shell").classList.remove("on");
+  document.getElementById("adm-login").style.display="flex";
+  document.getElementById("login-pass").value="";
+};
+function showAdminPanel(user){
+  document.getElementById("adm-login").style.display="none";
+  document.getElementById("adm-shell").classList.add("on");
+  const lbl=document.getElementById("adm-email-lbl");if(lbl&&user)lbl.textContent=user.email;
+  renderAdmin();
+}
+
+window.openVehicleModal=function(id){
+  editingVehicleId=id||null;pendingImgs=[];renderImgPreviews();
+  document.getElementById("vehicle-modal").classList.add("on");
+  document.getElementById("vm-error").style.display="none";
+  document.getElementById("img-error").style.display="none";
+  const catSel=document.getElementById("vm-cat");
+  catSel.innerHTML=categories.map(c=>`<option value="${c.nombre}">${c.nombre}</option>`).join("");
+  if(id){
+    const v=vehicles.find(v=>v.id===id);if(!v)return;
+    document.getElementById("vm-title").textContent="Editar Vehículo";
+    document.getElementById("vm-save-text").textContent="Actualizar";
+    document.getElementById("vm-name").value=v.nombre||"";
+    catSel.value=v.categoria||"";
+    document.getElementById("vm-price").value=v.precio||"";
+    document.getElementById("vm-passengers").value=v.pasajeros||5;
+    document.getElementById("vm-trans").value=v.transmision||"Automático";
+    document.getElementById("vm-fuel").value=v.combustible||"Gasolina";
+    document.getElementById("vm-desc").value=v.descripcion||"";
+    document.getElementById("vm-avail-toggle").classList.toggle("on",!!v.disponible);
+    document.getElementById("vm-img-url").value="";
+    pendingImgs=[...getImgs(v)].filter(u=>u!==FALLBACK);
+    renderImgPreviews();
+  }else{
+    document.getElementById("vm-title").textContent="Agregar Vehículo";
+    document.getElementById("vm-save-text").textContent="Guardar";
+    ["vm-name","vm-price","vm-desc","vm-img-url"].forEach(i=>document.getElementById(i).value="");
+    document.getElementById("vm-passengers").value="5";
+    document.getElementById("vm-trans").value="Automático";
+    document.getElementById("vm-fuel").value="Gasolina";
+    document.getElementById("vm-avail-toggle").classList.add("on");
+  }
+};
+window.closeVehicleModal=function(){document.getElementById("vehicle-modal").classList.remove("on");};
+window.saveVehicle=async function(){
+  const nombre=document.getElementById("vm-name").value.trim();
+  const cat=document.getElementById("vm-cat").value;
+  const precioRaw=document.getElementById("vm-price").value;
+  const precio=precioRaw?parseFloat(precioRaw):null;
+  const errEl=document.getElementById("vm-error");
+  if(!nombre){errEl.textContent="El nombre es obligatorio.";errEl.style.display="block";return;}
+  if(!cat){errEl.textContent="Selecciona una categoría.";errEl.style.display="block";return;}
+  errEl.style.display="none";
+  const imagenes=pendingImgs.length?pendingImgs:[FALLBACK];
+  const data={nombre,categoria:cat,precio,pasajeros:parseInt(document.getElementById("vm-passengers").value)||5,transmision:document.getElementById("vm-trans").value,combustible:document.getElementById("vm-fuel").value,descripcion:document.getElementById("vm-desc").value.trim(),disponible:document.getElementById("vm-avail-toggle").classList.contains("on"),imagenes};
+  try{
+    if(editingVehicleId){await updateDoc(doc(db,"autos",editingVehicleId),data);showToast("✅ Vehículo actualizado");}
+    else{await addDoc(collection(db,"autos"),data);showToast("✅ Vehículo agregado");}
+    closeVehicleModal();
+  }catch(err){errEl.textContent="Error: "+err.message;errEl.style.display="block";}
+};
+window.deleteVehicle=async function(id){
+  if(!confirm("¿Eliminar este vehículo?"))return;
+  await deleteDoc(doc(db,"autos",id)).then(()=>showToast("🗑 Eliminado")).catch(()=>showToast("❌ Error"));
+};
+window.toggleAvail=async function(id,btn){
+  const v=vehicles.find(v=>v.id===id);if(!v)return;
+  const nuevo=!v.disponible;
+  await updateDoc(doc(db,"autos",id),{disponible:nuevo});
+  btn.querySelector(".tog")?.classList.toggle("on",nuevo);
+  const lbl=btn.querySelector("span");if(lbl)lbl.textContent=nuevo?"Disponible":"Rentado";
+};
+
+window.openCatModal=function(id){
+  editingCatId=id||null;
+  document.getElementById("cat-modal").classList.add("on");
+  document.getElementById("cm-error").style.display="none";
+  if(id){
+    const c=categories.find(c=>c.id===id);if(!c)return;
+    document.getElementById("cm-title").textContent="Editar Categoría";
+    document.getElementById("cm-name").value=c.nombre||"";
+    document.getElementById("cm-price").value=c.precioDia||"";
+    document.getElementById("cm-week").value=c.precioSemana||"";
+    document.getElementById("cm-inc").value=c.incluye||"";
+  }else{
+    document.getElementById("cm-title").textContent="Nueva Categoría";
+    ["cm-name","cm-price","cm-week"].forEach(i=>document.getElementById(i).value="");
+    document.getElementById("cm-inc").value="Seguro · Km ilim.";
+  }
+};
+window.closeCatModal=function(){document.getElementById("cat-modal").classList.remove("on");};
+window.saveCat=async function(){
+  const nombre=document.getElementById("cm-name").value.trim();
+  const precioDia=parseFloat(document.getElementById("cm-price").value)||null;
+  const precioSemana=parseFloat(document.getElementById("cm-week").value)||null;
+  const incluye=document.getElementById("cm-inc").value.trim()||"Seguro · Km ilim.";
+  const errEl=document.getElementById("cm-error");
+  if(!nombre){errEl.textContent="El nombre es obligatorio.";errEl.style.display="block";return;}
+  errEl.style.display="none";
+  const data={nombre,precioDia,precioSemana,incluye};
+  try{
+    if(editingCatId){
+      const old=categories.find(c=>c.id===editingCatId);
+      await updateDoc(doc(db,"categorias",editingCatId),data);
+      if(old&&old.nombre!==nombre){
+        const batch=writeBatch(db);
+        vehicles.filter(v=>v.categoria===old.nombre).forEach(v=>batch.update(doc(db,"autos",v.id),{categoria:nombre}));
+        await batch.commit();
+      }
+      showToast("✅ Categoría actualizada");
+    }else{await addDoc(collection(db,"categorias"),data);showToast("✅ Categoría creada");}
+    closeCatModal();
+  }catch(err){errEl.textContent="Error: "+err.message;errEl.style.display="block";}
+};
+window.deleteCat=async function(id){
+  const cat=categories.find(c=>c.id===id);
+  const n=vehicles.filter(v=>v.categoria===cat?.nombre).length;
+  if(n>0){showToast(`⚠️ Mueve los ${n} vehículo(s) primero.`);return;}
+  if(!confirm(`¿Eliminar "${cat?.nombre}"?`))return;
+  await deleteDoc(doc(db,"categorias",id)).then(()=>showToast("🗑 Eliminada")).catch(()=>showToast("❌ Error"));
+};
+window.clearReservations=async function(){
+  if(!reservations.length){showToast("No hay reservaciones.");return;}
+  if(!confirm("¿Limpiar todas las reservaciones?"))return;
+  const batch=writeBatch(db);
+  reservations.forEach(r=>batch.delete(doc(db,"reservas",r.id)));
+  await batch.commit().then(()=>showToast("🗑 Reservaciones eliminadas")).catch(()=>showToast("❌ Error"));
+};
+
+function renderImgPreviews(){
+  document.getElementById("imgs-preview").innerHTML=pendingImgs.map((url,i)=>`
+    <div class="img-chip"><img src="${url}" onerror="this.src='${FALLBACK}'" alt="img"/><button onclick="removeImg(${i})">✕</button></div>`).join("");
+}
+window.removeImg=function(i){pendingImgs.splice(i,1);renderImgPreviews();};
+window.addUrlImg=function(){
+  const url=document.getElementById("vm-img-url").value.trim();
+  if(!url||!url.startsWith("http")){showToast("⚠️ URL inválida");return;}
+  pendingImgs.push(url);renderImgPreviews();document.getElementById("vm-img-url").value="";
+};
+window.uploadImg=async function(input){
+  const files=Array.from(input.files);if(!files.length)return;
+  document.getElementById("upload-placeholder").style.display="none";
+  document.getElementById("upload-loading").style.display="block";
+  try{
+    for(const file of files){
+      const fd=new FormData();
+      fd.append("file",file);
+      fd.append("upload_preset",CFG.uploadPreset);
+      const res=await fetch(`https://api.cloudinary.com/v1_1/${CFG.cloudName}/image/upload`,{method:"POST",body:fd});
+      if(!res.ok)throw new Error("Upload failed");
+      const data=await res.json();
+      pendingImgs.push(data.secure_url);
+    }
+    renderImgPreviews();
+  }catch(e){
+    document.getElementById("img-error").textContent="Error al subir imagen. Verifica tu configuración de Cloudinary.";
+    document.getElementById("img-error").style.display="block";
+  }finally{
+    document.getElementById("upload-placeholder").style.display="block";
+    document.getElementById("upload-loading").style.display="none";
+    input.value="";
+  }
+};
+window.handleDrop=function(e){
+  e.preventDefault();
+  document.getElementById("upload-zone").classList.remove("dragover");
+  const files=Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith("image/"));
+  if(!files.length)return;
+  const dt=new DataTransfer();files.forEach(f=>dt.items.add(f));
+  const inp=document.getElementById("img-file");inp.files=dt.files;
+  uploadImg(inp);
+};
+
+// ── Reservation form
+const reserveForm=document.getElementById("reserve-form");
+if(reserveForm){
+  const today=new Date().toISOString().split("T")[0];
+  document.getElementById("r-fecha-in").min=today;
+  document.getElementById("r-fecha-out").min=today;
+
+  function updateSummary(){
+    const fi=document.getElementById("r-fecha-in").value;
+    const fo=document.getElementById("r-fecha-out").value;
+    const tipo=document.getElementById("r-tipo").value;
+    if(fi&&fo){
+      const diff=Math.ceil((new Date(fo)-new Date(fi))/(1000*60*60*24));
+      if(diff>0){
+        document.getElementById("reserve-summary").style.display="block";
+        document.getElementById("s-days").textContent=diff+" día"+(diff>1?"s":"");
+        const cat=categories.find(c=>c.nombre===tipo);
+        if(cat&&cat.precioDia){
+          document.getElementById("s-total").textContent="$"+(diff*cat.precioDia).toFixed(2);
+        }else{
+          document.getElementById("s-total").textContent="Consultar";
+        }
+      }else{
+        document.getElementById("reserve-summary").style.display="none";
+      }
+    }
+  }
+  ["r-fecha-in","r-fecha-out","r-tipo"].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.addEventListener("change",updateSummary);
+  });
+
+  reserveForm.addEventListener("submit",async e=>{
+    e.preventDefault();
+    let valid=true;
+    const fields=[
+      {id:"r-fecha-in",err:"err-fecha-in"},
+      {id:"r-fecha-out",err:"err-fecha-out"},
+      {id:"r-nombre",err:"err-nombre"},
+      {id:"r-tel",err:"err-tel"},
+    ];
+    fields.forEach(({id,err})=>{
+      const inp=document.getElementById(id);
+      const errEl=document.getElementById(err);
+      if(!inp.value.trim()){
+        inp.classList.add("err");errEl.style.display="block";valid=false;
+      }else{
+        inp.classList.remove("err");errEl.style.display="none";
+      }
+    });
+    if(!valid)return;
+
+    const fi=document.getElementById("r-fecha-in").value;
+    const fo=document.getElementById("r-fecha-out").value;
+    const hi=document.getElementById("r-hora-in").value;
+    const ho=document.getElementById("r-hora-out").value;
+    const nombre=document.getElementById("r-nombre").value.trim();
+    const tel=document.getElementById("r-tel").value.trim();
+    const tipo=document.getElementById("r-tipo").value||"Cualquier tipo";
+    const diff=Math.ceil((new Date(fo)-new Date(fi))/(1000*60*60*24));
+
+    const btn=document.getElementById("reserve-btn");
+    const btnText=document.getElementById("btn-text");
+    const btnIcon=document.getElementById("btn-icon");
+    const btnSpinner=document.getElementById("btn-spinner");
+    btn.disabled=true;btnText.textContent="Enviando…";btnIcon.style.display="none";btnSpinner.style.display="block";
+
+    try{
+      await addDoc(collection(db,"reservas"),{
+        nombre,telefono:tel,tipo,
+        fechaRecogida:fi,horaRecogida:hi,
+        fechaDev:fo,horaDev:ho,
+        dias:diff>0?diff:1,
+        fecha:serverTimestamp(),
+      });
+
+      const msg=`🚗 *Nueva Reserva — ${CFG.location}*\n\n👤 *Nombre:* ${nombre}\n📱 *Teléfono:* ${tel}\n🚘 *Tipo:* ${tipo}\n📅 *Recogida:* ${fi} ${hi}\n📅 *Devolución:* ${fo} ${ho}\n⏱ *Días:* ${diff>0?diff:1}\n\n¡Gracias por preferirnos!`;
+      const waUrl=`https://wa.me/${CFG.whatsapp}?text=${encodeURIComponent(msg)}`;
+      window.open(waUrl,"_blank");
+      showToast("✅ Reserva enviada. ¡Gracias!");
+      reserveForm.reset();
+      document.getElementById("reserve-summary").style.display="none";
+    }catch(err){
+      showToast("❌ Error al guardar. Intenta de nuevo.");
+    }finally{
+      btn.disabled=false;btnText.textContent="ENVIAR RESERVA POR WHATSAPP";btnIcon.style.display="block";btnSpinner.style.display="none";
+    }
+  });
+}
+
+window.showToast=function(msg,duration=3200){
+  const t=document.getElementById("toast");
+  t.textContent=msg;t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),duration);
+};
+</script>
+</body>
+</html>
